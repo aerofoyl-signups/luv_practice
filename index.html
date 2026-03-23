@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: Primary Trig Functions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax for rendering math formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .option-label:hover { cursor: pointer; }
+        
+        /* CAST Rule grid styling */
+        .cast-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 4px;
+            background-color: #e5e7eb;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .cast-quadrant {
+            background-color: white;
+            padding: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="bg-indigo-600 shadow-md">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-white text-xl font-bold">Trig Lesson 2</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="nav-concepts" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-indigo-800 focus:outline-none transition-colors">
+                        Concepts (Page 1)
+                    </button>
+                    <button id="nav-quiz" class="px-3 py-2 rounded-md text-sm font-medium text-indigo-100 hover:bg-indigo-700 hover:text-white focus:outline-none transition-colors">
+                        Practice Quiz (Page 2)
+                    </button>
+                    <button id="nav-hard-quiz" class="px-3 py-2 rounded-md text-sm font-medium text-indigo-100 hover:bg-indigo-700 hover:text-white focus:outline-none transition-colors">
+                        Challenge Quiz (Page 3)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 mt-4">
+
+        <!-- ================= PAGE 1: CONCEPTS ================= -->
+        <div id="page-concepts" class="fade-in">
+            <div class="mb-8 text-center">
+                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Graphs of the Primary Trig Functions</h1>
+                <p class="mt-2 text-lg text-gray-600">Review the Unit Circle, CAST Rule, and Parent Sinusoidal Graphs.</p>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Concept 1: Unit Circle -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                    <h2 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                        1. The Unit Circle
+                    </h2>
+                    <p class="text-gray-700 mb-4">
+                        The unit circle is a circle with a radius of $r = 1$ centered at the origin. Its equation is $x^2 + y^2 = 1$. 
+                        By picking a point $(x, y)$ on the circle formed by an angle $\theta$ from the positive x-axis, we define the primary trig ratios:
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                            <p class="font-semibold text-indigo-900 text-lg">Cosine</p>
+                            <p class="text-xl mt-2">$\cos \theta = \frac{x}{r} = x$</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                            <p class="font-semibold text-blue-900 text-lg">Sine</p>
+                            <p class="text-xl mt-2">$\sin \theta = \frac{y}{r} = y$</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
+                            <p class="font-semibold text-purple-900 text-lg">Tangent</p>
+                            <p class="text-xl mt-2">$\tan \theta = \frac{y}{x} = \frac{\sin \theta}{\cos \theta}$</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Concept 2: CAST Rule -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                    <h2 class="text-2xl font-bold text-indigo-700 mb-4">2. The CAST Rule</h2>
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="flex-1 text-gray-700">
+                            <p class="mb-4">The CAST Rule helps you quickly determine which primary trigonometric ratios are positive in each of the four quadrants on the Cartesian plane.</p>
+                            <ul class="space-y-2 list-disc list-inside">
+                                <li><strong>Quadrant I (A):</strong> <u>All</u> ratios are positive.</li>
+                                <li><strong>Quadrant II (S):</strong> Only <u>Sine</u> is positive.</li>
+                                <li><strong>Quadrant III (T):</strong> Only <u>Tangent</u> is positive.</li>
+                                <li><strong>Quadrant IV (C):</strong> Only <u>Cosine</u> is positive.</li>
+                            </ul>
+                        </div>
+                        <div class="flex-1 w-full max-w-sm">
+                            <div class="cast-grid text-xl font-bold">
+                                <div class="cast-quadrant text-blue-600">
+                                    <span class="text-3xl">S</span>
+                                    <span class="text-sm font-medium text-gray-500 mt-1">Quad II</span>
+                                </div>
+                                <div class="cast-quadrant text-indigo-600">
+                                    <span class="text-3xl">A</span>
+                                    <span class="text-sm font-medium text-gray-500 mt-1">Quad I</span>
+                                </div>
+                                <div class="cast-quadrant text-purple-600">
+                                    <span class="text-3xl">T</span>
+                                    <span class="text-sm font-medium text-gray-500 mt-1">Quad III</span>
+                                </div>
+                                <div class="cast-quadrant text-teal-600">
+                                    <span class="text-3xl">C</span>
+                                    <span class="text-sm font-medium text-gray-500 mt-1">Quad IV</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Concept 3: Parent Graphs -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                    <h2 class="text-2xl font-bold text-indigo-700 mb-4">3. Parent Graphs</h2>
+                    <p class="text-gray-700 mb-6">Memorizing the key points of the primary trig functions is essential before exploring transformations.</p>
+                    
+                    <div class="space-y-6">
+                        <!-- Sine -->
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <h3 class="text-xl font-bold text-gray-800">$y = \sin \theta$</h3>
+                            <ul class="mt-2 text-gray-600 space-y-1 text-sm md:text-base">
+                                <li><strong>Shape:</strong> Wave starting at the origin (0,0), heading upwards.</li>
+                                <li><strong>Key Points (0° to 360°):</strong> (0°, 0), (90°, 1), (180°, 0), (270°, -1), (360°, 0)</li>
+                                <li><strong>Period:</strong> 360°</li>
+                                <li><strong>Amplitude:</strong> 1</li>
+                                <li><strong>Max / Min:</strong> 1 / -1</li>
+                            </ul>
+                        </div>
+
+                        <!-- Cosine -->
+                        <div class="border-l-4 border-teal-500 pl-4">
+                            <h3 class="text-xl font-bold text-gray-800">$y = \cos \theta$</h3>
+                            <ul class="mt-2 text-gray-600 space-y-1 text-sm md:text-base">
+                                <li><strong>Shape:</strong> Wave starting at its maximum peak (0,1).</li>
+                                <li><strong>Key Points (0° to 360°):</strong> (0°, 1), (90°, 0), (180°, -1), (270°, 0), (360°, 1)</li>
+                                <li><strong>Period:</strong> 360°</li>
+                                <li><strong>Amplitude:</strong> 1</li>
+                                <li><strong>Max / Min:</strong> 1 / -1</li>
+                            </ul>
+                        </div>
+
+                        <!-- Tangent -->
+                        <div class="border-l-4 border-purple-500 pl-4">
+                            <h3 class="text-xl font-bold text-gray-800">$y = \tan \theta$</h3>
+                            <ul class="mt-2 text-gray-600 space-y-1 text-sm md:text-base">
+                                <li><strong>Shape:</strong> Series of upward curves separated by vertical asymptotes.</li>
+                                <li><strong>Key Features:</strong> Has vertical asymptotes wherever $\cos \theta = 0$ (e.g., 90°, 270°).</li>
+                                <li><strong>Period:</strong> 180°</li>
+                                <li><strong>Amplitude:</strong> None (Undefined, approaches infinity)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 2: PRACTICE QUIZ ================= -->
+        <div id="page-quiz" class="hidden">
+            <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden relative">
+                <!-- Header -->
+                <div class="bg-indigo-600 p-6 text-white text-center">
+                    <h1 id="quiz-page-title" class="text-2xl font-bold">Lesson 2 Quiz</h1>
+                    <p id="quiz-page-subtitle" class="text-indigo-200 mt-2">Test your knowledge of the Unit Circle and Parent Graphs!</p>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 h-2">
+                    <div id="progress-bar" class="bg-green-500 h-2 transition-all duration-300" style="width: 0%;"></div>
+                </div>
+
+                <!-- Quiz Container -->
+                <div id="quiz-container" class="p-8 fade-in">
+                    <div id="question-header" class="text-sm text-gray-500 font-semibold mb-2 uppercase tracking-wide">Question 1 of 10</div>
+                    <h2 id="question-text" class="text-xl font-medium text-gray-800 mb-6">Loading question...</h2>
+                    
+                    <div id="options-container" class="space-y-3">
+                        <!-- Options will be injected here via JS -->
+                    </div>
+
+                    <div id="feedback-container" class="mt-6 hidden p-4 rounded-lg">
+                        <p id="feedback-title" class="font-bold text-lg mb-1"></p>
+                        <p id="feedback-text" class="text-gray-700"></p>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button id="submit-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors hidden">Submit Answer</button>
+                        <button id="next-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors hidden">Next Question</button>
+                    </div>
+                </div>
+
+                <!-- Results Container -->
+                <div id="results-container" class="p-8 text-center hidden">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Quiz Complete!</h2>
+                    <div class="text-6xl mb-6">🏆</div>
+                    <p class="text-xl text-gray-600 mb-2">Your Score:</p>
+                    <p id="score-text" class="text-4xl font-bold text-indigo-600 mb-6">0 / 10</p>
+                    <p id="score-message" class="text-gray-600 mb-8"></p>
+                    <button id="restart-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors">Retake Quiz</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Tab Navigation Logic
+        const btnConcepts = document.getElementById('nav-concepts');
+        const btnQuiz = document.getElementById('nav-quiz');
+        const btnHardQuiz = document.getElementById('nav-hard-quiz');
+        const pageConcepts = document.getElementById('page-concepts');
+        const pageQuiz = document.getElementById('page-quiz');
+        const quizPageTitle = document.getElementById('quiz-page-title');
+        const quizPageSubtitle = document.getElementById('quiz-page-subtitle');
+
+        function resetNavStyles() {
+            btnConcepts.classList.remove('bg-indigo-800', 'text-white');
+            btnConcepts.classList.add('text-indigo-100', 'hover:bg-indigo-700');
+            btnQuiz.classList.remove('bg-indigo-800', 'text-white');
+            btnQuiz.classList.add('text-indigo-100', 'hover:bg-indigo-700');
+            btnHardQuiz.classList.remove('bg-indigo-800', 'text-white');
+            btnHardQuiz.classList.add('text-indigo-100', 'hover:bg-indigo-700');
+        }
+
+        btnConcepts.addEventListener('click', () => {
+            resetNavStyles();
+            btnConcepts.classList.add('bg-indigo-800', 'text-white');
+            
+            pageConcepts.classList.remove('hidden');
+            pageConcepts.classList.add('fade-in');
+            pageQuiz.classList.add('hidden');
+            pageQuiz.classList.remove('fade-in');
+        });
+
+        btnQuiz.addEventListener('click', () => {
+            resetNavStyles();
+            btnQuiz.classList.add('bg-indigo-800', 'text-white');
+            
+            pageQuiz.classList.remove('hidden');
+            pageQuiz.classList.add('fade-in');
+            pageConcepts.classList.add('hidden');
+            pageConcepts.classList.remove('fade-in');
+            
+            quizPageTitle.innerText = "Lesson 2 Quiz";
+            quizPageSubtitle.innerText = "Test your knowledge of the Unit Circle and Parent Graphs!";
+            activeQuizData = standardQuizData;
+            restartBtn.click();
+            
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        });
+
+        btnHardQuiz.addEventListener('click', () => {
+            resetNavStyles();
+            btnHardQuiz.classList.add('bg-indigo-800', 'text-white');
+            
+            pageQuiz.classList.remove('hidden');
+            pageQuiz.classList.add('fade-in');
+            pageConcepts.classList.add('hidden');
+            pageConcepts.classList.remove('fade-in');
+            
+            quizPageTitle.innerText = "Challenge Quiz";
+            quizPageSubtitle.innerText = "Tackle these harder questions to master the concepts!";
+            activeQuizData = hardQuizData;
+            restartBtn.click();
+            
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        });
+
+        // Quiz Logic & Data
+        const standardQuizData = [
+            {
+                question: "On the unit circle, what does the y-coordinate of a point $(x, y)$ represent?",
+                options: [
+                    "$\\cos \\theta$",
+                    "$\\sin \\theta$",
+                    "$\\tan \\theta$",
+                    "The radius of the circle"
+                ],
+                correct: 1,
+                explanation: "On a unit circle where the radius $r = 1$, the ratio $\\sin \\theta = \\frac{y}{r}$ simplifies to just $\\sin \\theta = y$."
+            },
+            {
+                question: "What is the amplitude of the parent cosine function, $y = \\cos \\theta$?",
+                options: ["0", "1", "360°", "Undefined"],
+                correct: 1,
+                explanation: "The parent cosine graph oscillates between a maximum of 1 and a minimum of -1, so its amplitude is exactly 1."
+            },
+            {
+                question: "According to the CAST rule, in which quadrant(s) is the cosine ratio positive?",
+                options: [
+                    "Quadrant I only",
+                    "Quadrants II and III",
+                    "Quadrants I and IV",
+                    "Quadrants III and IV"
+                ],
+                correct: 2,
+                explanation: "Using CAST (Quad IV = C, Quad I = A): Cosine is positive in Quadrant IV, and ALL ratios are positive in Quadrant I."
+            },
+            {
+                question: "What is the period of the parent tangent function, $y = \\tan \\theta$?",
+                options: ["90°", "180°", "270°", "360°"],
+                correct: 1,
+                explanation: "Unlike sine and cosine, which have a period of 360°, the tangent function completes a full cycle of its pattern every 180°."
+            },
+            {
+                question: "Which of the following describes the graph of $y = \\sin \\theta$?",
+                options: [
+                    "Starts at its maximum peak of 1 at 0°.",
+                    "Consists of curves separated by vertical asymptotes.",
+                    "Starts at the origin (0,0) and heads upwards to a maximum of 1.",
+                    "Starts at (0, -1) and heads upwards."
+                ],
+                correct: 2,
+                explanation: "The parent sine graph always starts at the origin $(0°, 0)$ and immediately rises to its peak at $90°$."
+            },
+            {
+                question: "Which of the primary trigonometric functions has vertical asymptotes?",
+                options: ["Sine", "Cosine", "Tangent", "None of them"],
+                correct: 2,
+                explanation: "Tangent is equal to $\\frac{\\sin \\theta}{\\cos \\theta}$. Whenever $\\cos \\theta = 0$ (like at 90° and 270°), you are dividing by zero, creating a vertical asymptote."
+            },
+            {
+                question: "At which angles does the parent graph $y = \\cos \\theta$ reach its maximum value of 1 (within one positive cycle 0° to 360°)?",
+                options: [
+                    "90° and 270°",
+                    "180° only",
+                    "0° and 180°",
+                    "0° and 360°"
+                ],
+                correct: 3,
+                explanation: "The cosine graph starts at its peak at 0°, dips down to its minimum at 180°, and returns to its peak at 360°."
+            },
+            {
+                question: "If an angle terminates in Quadrant II, what are the signs of its primary trig ratios?",
+                options: [
+                    "Sine (+), Cosine (+), Tangent (+)",
+                    "Sine (+), Cosine (-), Tangent (-)",
+                    "Sine (-), Cosine (+), Tangent (-)",
+                    "Sine (-), Cosine (-), Tangent (+)"
+                ],
+                correct: 1,
+                explanation: "The 'S' in CAST stands for Quadrant II, meaning ONLY Sine is positive. Therefore, Cosine and Tangent are negative."
+            },
+            {
+                question: "What are the coordinates $(x, y)$ on the Unit Circle for an angle of 90°?",
+                options: ["(1, 0)", "(0, 1)", "(-1, 0)", "(0, -1)"],
+                correct: 1,
+                explanation: "At 90°, the point is straight up on the y-axis. The distance is the radius (1), so the coordinates are (0, 1). This means $\\cos 90° = 0$ and $\\sin 90° = 1$."
+            },
+            {
+                question: "What are the zeros (x-intercepts) of the parent function $y = \\sin \\theta$ between 0° and 360° inclusive?",
+                options: [
+                    "90° and 270°",
+                    "0°, 180°, and 360°",
+                    "180° only",
+                    "0° and 360° only"
+                ],
+                correct: 1,
+                explanation: "The sine wave starts on the axis at 0°, crosses the axis exactly halfway through its cycle at 180°, and finishes on the axis at 360°."
+            }
+        ];
+
+        const hardQuizData = [
+            {
+                question: "If $\\sin \\theta = -0.6$ and $\\cos \\theta > 0$, in which quadrant does the terminal side of $\\theta$ lie?",
+                options: ["Quadrant I", "Quadrant II", "Quadrant III", "Quadrant IV"],
+                correct: 3,
+                explanation: "Using the CAST rule, Sine is negative in Quads III and IV, while Cosine is positive in Quads I and IV. Both conditions are only met in Quadrant IV."
+            },
+            {
+                question: "What is the exact value of $\\tan 90^\\circ$?",
+                options: ["0", "1", "-1", "Undefined"],
+                correct: 3,
+                explanation: "$\\tan \\theta = \\frac{\\sin \\theta}{\\cos \\theta}$. At $90^\\circ$, $\\sin 90^\\circ = 1$ and $\\cos 90^\\circ = 0$. Dividing by zero is undefined, which is why the tangent graph has a vertical asymptote at $90^\\circ$."
+            },
+            {
+                question: "How many times do the graphs of $y = \\cos \\theta$ and $y = \\sin \\theta$ intersect in the interval $0^\\circ \\le \\theta < 360^\\circ$?",
+                options: ["0 times", "1 time", "2 times", "4 times"],
+                correct: 2,
+                explanation: "They intersect twice: once in Quadrant I at $45^\\circ$ (where both are $\\approx 0.707$) and once in Quadrant III at $225^\\circ$ (where both are $\\approx -0.707$)."
+            },
+            {
+                question: "If $\\tan \\theta = 1$ and $\\sin \\theta < 0$, what is the value of $\\theta$ between $0^\\circ$ and $360^\\circ$?",
+                options: ["$45^\\circ$", "$135^\\circ$", "$225^\\circ$", "$315^\\circ$"],
+                correct: 2,
+                explanation: "Tangent is positive in Quads I and III. Sine is negative in Quads III and IV. The overlapping quadrant is III. The angle in Quad III with a reference angle of $45^\\circ$ is $180^\\circ + 45^\\circ = 225^\\circ$."
+            },
+            {
+                question: "As $\\theta$ approaches $90^\\circ$ from values less than $90^\\circ$ (e.g., $89^\\circ, 89.9^\\circ$), what happens to the value of $\\tan \\theta$?",
+                options: [
+                    "It approaches 0",
+                    "It approaches 1",
+                    "It approaches positive infinity",
+                    "It approaches negative infinity"
+                ],
+                correct: 2,
+                explanation: "As you get closer to $90^\\circ$ from the left side, $\\sin \\theta$ is close to 1 and $\\cos \\theta$ gets closer and closer to a tiny positive number. Dividing by a tiny positive number results in a massive positive number (positive infinity)."
+            },
+            {
+                question: "A point $P(x, y)$ lies on the unit circle corresponding to an angle $\\theta$. If $x = -\\frac{\\sqrt{3}}{2}$ and $y = \\frac{1}{2}$, what is the value of $\\tan \\theta$?",
+                options: ["$-\\sqrt{3}$", "$-\\frac{1}{\\sqrt{3}}$", "$\\frac{1}{\\sqrt{3}}$", "$\\sqrt{3}$"],
+                correct: 1,
+                explanation: "On the unit circle, $\\tan \\theta = \\frac{y}{x}$. So, $\\tan \\theta = \\frac{1/2}{-\\sqrt{3}/2} = -\\frac{1}{\\sqrt{3}}$."
+            },
+            {
+                question: "Which of the following equations represents the fundamental trigonometric identity derived from the unit circle equation $x^2 + y^2 = 1$?",
+                options: [
+                    "$\\sin \\theta + \\cos \\theta = 1$",
+                    "$\\tan^2 \\theta + 1 = \\sec^2 \\theta$",
+                    "$\\sin^2 \\theta + \\cos^2 \\theta = 1$",
+                    "$\\sin \\theta \\cdot \\cos \\theta = 1$"
+                ],
+                correct: 2,
+                explanation: "Since $x = \\cos \\theta$ and $y = \\sin \\theta$ on the unit circle, substituting these into $x^2 + y^2 = 1$ yields the Pythagorean identity $\\cos^2 \\theta + \\sin^2 \\theta = 1$."
+            },
+            {
+                question: "For which angle $\\theta$ in the interval $0^\\circ \\le \\theta \\le 360^\\circ$ is it true that $\\sin \\theta = -\\cos \\theta$?",
+                options: [
+                    "$45^\\circ$ and $225^\\circ$",
+                    "$135^\\circ$ and $315^\\circ$",
+                    "$90^\\circ$ and $270^\\circ$",
+                    "$180^\\circ$ and $360^\\circ$"
+                ],
+                correct: 1,
+                explanation: "$\\sin \\theta = -\\cos \\theta$ means $\\frac{\\sin \\theta}{\\cos \\theta} = -1$, which means $\\tan \\theta = -1$. Tangent is -1 at $135^\\circ$ (Quad II) and $315^\\circ$ (Quad IV)."
+            },
+            {
+                question: "What is the range of the parent function $y = \\tan \\theta$?",
+                options: [
+                    "$-1 \\le y \\le 1$",
+                    "$0 \\le y \\le 360^\\circ$",
+                    "$y \\ne 90^\\circ + 180^\\circ k$",
+                    "All real numbers ($\\mathbb{R}$)"
+                ],
+                correct: 3,
+                explanation: "While the domain of tangent is restricted by vertical asymptotes, its range extends from negative infinity to positive infinity, covering all real numbers."
+            },
+            {
+                question: "Which of the following describes the symmetry of the parent sine and cosine graphs?",
+                options: [
+                    "Sine is symmetrical about the y-axis; Cosine has rotational symmetry about the origin.",
+                    "Cosine is symmetrical about the y-axis; Sine has rotational symmetry about the origin.",
+                    "Both are symmetrical about the y-axis.",
+                    "Neither graph possesses symmetry."
+                ],
+                correct: 1,
+                explanation: "Cosine is an even function, meaning it reflects perfectly across the y-axis ($y = \\cos \\theta$ is the same for positive and negative $\\theta$). Sine is an odd function, meaning it has $180^\\circ$ rotational symmetry about the origin."
+            }
+        ];
+
+        let activeQuizData = standardQuizData;
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        const questionHeader = document.getElementById('question-header');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const submitBtn = document.getElementById('submit-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackText = document.getElementById('feedback-text');
+        const progressBar = document.getElementById('progress-bar');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const scoreText = document.getElementById('score-text');
+        const scoreMessage = document.getElementById('score-message');
+        const restartBtn = document.getElementById('restart-btn');
+
+        function loadQuestion() {
+            selectedOption = null;
+            submitBtn.classList.add('hidden');
+            submitBtn.disabled = true;
+            nextBtn.classList.add('hidden');
+            feedbackContainer.classList.add('hidden');
+            
+            const q = activeQuizData[currentQuestion];
+            questionHeader.innerText = `Question ${currentQuestion + 1} of ${activeQuizData.length}`;
+            questionText.innerHTML = q.question;
+            
+            optionsContainer.innerHTML = '';
+            q.options.forEach((opt, index) => {
+                const optDiv = document.createElement('div');
+                optDiv.className = 'border-2 border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors option-label flex items-center group';
+                optDiv.innerHTML = `
+                    <div class="w-6 h-6 rounded-full border-2 border-gray-300 mr-4 flex items-center justify-center group-hover:border-indigo-500 transition-colors option-circle" id="circle-${index}">
+                        <div class="w-3 h-3 rounded-full bg-indigo-500 hidden inner-dot" id="dot-${index}"></div>
+                    </div>
+                    <span class="text-gray-700">${opt}</span>
+                `;
+                optDiv.onclick = () => selectOption(index, optDiv);
+                optionsContainer.appendChild(optDiv);
+            });
+
+            updateProgress();
+            
+            // Re-render math formatting if needed
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function selectOption(index, element) {
+            if (!submitBtn.classList.contains('hidden') && submitBtn.disabled === false) return; // Prevent changing after submit
+            if (!nextBtn.classList.contains('hidden')) return; // Prevent changing when showing answer
+            
+            selectedOption = index;
+            
+            // Reset all styling
+            document.querySelectorAll('.option-label').forEach(el => {
+                el.classList.remove('border-indigo-500', 'bg-indigo-50');
+                el.querySelector('.option-circle').classList.remove('border-indigo-500');
+                el.querySelector('.inner-dot').classList.add('hidden');
+            });
+            
+            // Add active styling
+            element.classList.add('border-indigo-500', 'bg-indigo-50');
+            element.querySelector('.option-circle').classList.add('border-indigo-500');
+            element.querySelector('.inner-dot').classList.remove('hidden');
+            
+            submitBtn.classList.remove('hidden');
+            submitBtn.disabled = false;
+        }
+
+        submitBtn.onclick = () => {
+            const q = activeQuizData[currentQuestion];
+            const options = document.querySelectorAll('.option-label');
+            
+            options.forEach(opt => opt.onclick = null); // disable clicks
+            submitBtn.classList.add('hidden');
+            nextBtn.classList.remove('hidden');
+            
+            const isCorrect = selectedOption === q.correct;
+            if (isCorrect) score++;
+
+            // Highlight Correct/Incorrect
+            options[selectedOption].classList.remove('border-indigo-500', 'bg-indigo-50');
+            
+            if (isCorrect) {
+                options[selectedOption].classList.add('border-green-500', 'bg-green-50');
+                feedbackContainer.className = 'mt-6 p-4 rounded-lg bg-green-50 border border-green-200 fade-in';
+                feedbackTitle.className = 'font-bold text-lg mb-1 text-green-700';
+                feedbackTitle.innerText = '✅ Correct!';
+            } else {
+                options[selectedOption].classList.add('border-red-500', 'bg-red-50');
+                options[q.correct].classList.add('border-green-500', 'bg-green-50'); // Show correct answer
+                feedbackContainer.className = 'mt-6 p-4 rounded-lg bg-red-50 border border-red-200 fade-in';
+                feedbackTitle.className = 'font-bold text-lg mb-1 text-red-700';
+                feedbackTitle.innerText = '❌ Incorrect';
+            }
+            
+            feedbackText.innerHTML = q.explanation;
+            feedbackContainer.classList.remove('hidden');
+            
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        };
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < activeQuizData.length) {
+                quizContainer.classList.remove('fade-in');
+                void quizContainer.offsetWidth; // trigger reflow
+                quizContainer.classList.add('fade-in');
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function updateProgress() {
+            const percentage = (currentQuestion / activeQuizData.length) * 100;
+            progressBar.style.width = `${percentage}%`;
+        }
+
+        function showResults() {
+            quizContainer.classList.add('hidden');
+            progressBar.style.width = '100%';
+            resultsContainer.classList.remove('hidden');
+            resultsContainer.classList.add('fade-in');
+            
+            scoreText.innerText = `${score} / ${activeQuizData.length}`;
+            
+            if (score === activeQuizData.length) {
+                scoreMessage.innerText = "Perfect! You've mastered these concepts.";
+            } else if (score >= 7) {
+                scoreMessage.innerText = "Great job! You have a solid grasp of these concepts.";
+            } else {
+                scoreMessage.innerText = "Good effort! Review the Concepts page and try the quiz again.";
+            }
+        }
+
+        restartBtn.onclick = () => {
+            currentQuestion = 0;
+            score = 0;
+            resultsContainer.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            loadQuestion();
+        };
+
+        // Initialize
+        loadQuestion();
+    </script>
+</body>
+</html>
