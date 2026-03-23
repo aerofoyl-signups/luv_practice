@@ -45,26 +45,38 @@
             justify-content: center;
             align-items: center;
         }
+
+        /* Custom Toggle Switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #68D391;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #68D391;
+        }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800">
 
     <!-- Navigation -->
     <nav class="bg-indigo-600 shadow-md">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <span class="text-white text-xl font-bold">Trig Lesson 2</span>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row justify-between h-auto sm:h-16 py-4 sm:py-0">
+                <div class="flex items-center justify-center sm:justify-start mb-4 sm:mb-0">
+                    <span class="text-white text-xl font-bold">Trig Lessons</span>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="flex flex-wrap items-center justify-center gap-2 sm:space-x-4">
                     <button id="nav-concepts" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-indigo-800 focus:outline-none transition-colors">
                         Concepts (Page 1)
                     </button>
                     <button id="nav-quiz" class="px-3 py-2 rounded-md text-sm font-medium text-indigo-100 hover:bg-indigo-700 hover:text-white focus:outline-none transition-colors">
-                        Practice Quiz (Page 2)
+                        L2 Quiz
                     </button>
                     <button id="nav-hard-quiz" class="px-3 py-2 rounded-md text-sm font-medium text-indigo-100 hover:bg-indigo-700 hover:text-white focus:outline-none transition-colors">
-                        Challenge Quiz (Page 3)
+                        L2 Challenge
+                    </button>
+                    <button id="nav-mixed-quiz" class="px-3 py-2 rounded-md text-sm font-medium text-indigo-100 hover:bg-indigo-700 hover:text-white focus:outline-none transition-colors">
+                        L1 & L3 Quiz
                     </button>
                 </div>
             </div>
@@ -186,10 +198,69 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Concept 4: Interactive Graph -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                    <h2 class="text-2xl font-bold text-indigo-700 mb-4">4. Interactive Graph Viewer</h2>
+                    <p class="text-gray-700 mb-6">Toggle the functions below and adjust the sliders to see how parameters $a$ (Amplitude) and $k$ (Frequency) transform the parent graphs.</p>
+                    
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <!-- Canvas Container -->
+                        <div class="flex-grow">
+                            <div class="relative w-full aspect-video bg-slate-100 rounded-xl overflow-hidden border-2 border-slate-200">
+                                <canvas id="trigCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1 px-1">
+                                <span>-360°</span>
+                                <span>-180°</span>
+                                <span>0°</span>
+                                <span>180°</span>
+                                <span>360°</span>
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="w-full lg:w-64 space-y-6 bg-gray-50 p-5 rounded-xl border border-gray-200">
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-3 border-b pb-1">Visibility</h3>
+                                <label class="flex items-center space-x-3 mb-2 cursor-pointer">
+                                    <input type="checkbox" id="toggle-sin" checked class="form-checkbox h-5 w-5 text-blue-500 rounded border-gray-300 focus:ring-blue-500">
+                                    <span class="text-blue-600 font-semibold">Sine ($y = \sin \theta$)</span>
+                                </label>
+                                <label class="flex items-center space-x-3 mb-2 cursor-pointer">
+                                    <input type="checkbox" id="toggle-cos" checked class="form-checkbox h-5 w-5 text-teal-500 rounded border-gray-300 focus:ring-teal-500">
+                                    <span class="text-teal-600 font-semibold">Cosine ($y = \cos \theta$)</span>
+                                </label>
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="checkbox" id="toggle-tan" class="form-checkbox h-5 w-5 text-purple-500 rounded border-gray-300 focus:ring-purple-500">
+                                    <span class="text-purple-600 font-semibold">Tangent ($y = \tan \theta$)</span>
+                                </label>
+                            </div>
+
+                            <div>
+                                <h3 class="font-bold text-gray-800 mb-3 border-b pb-1">Transformations</h3>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 flex justify-between">
+                                        <span>Amplitude ($a$)</span>
+                                        <span id="val-amp" class="text-indigo-600 font-bold">1.0</span>
+                                    </label>
+                                    <input type="range" id="slider-amp" min="0.5" max="3" step="0.1" value="1" class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer mt-2">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 flex justify-between">
+                                        <span>Frequency ($k$)</span>
+                                        <span id="val-freq" class="text-indigo-600 font-bold">1.0</span>
+                                    </label>
+                                    <input type="range" id="slider-freq" min="0.5" max="4" step="0.5" value="1" class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer mt-2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- ================= PAGE 2: PRACTICE QUIZ ================= -->
+        <!-- ================= PAGE 2: QUIZ INTERFACE ================= -->
         <div id="page-quiz" class="hidden">
             <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden relative">
                 <!-- Header -->
@@ -237,82 +308,203 @@
     </main>
 
     <script>
-        // Tab Navigation Logic
+        /* ================= NAVIGATION LOGIC ================= */
         const btnConcepts = document.getElementById('nav-concepts');
         const btnQuiz = document.getElementById('nav-quiz');
         const btnHardQuiz = document.getElementById('nav-hard-quiz');
+        const btnMixedQuiz = document.getElementById('nav-mixed-quiz');
+        
         const pageConcepts = document.getElementById('page-concepts');
         const pageQuiz = document.getElementById('page-quiz');
         const quizPageTitle = document.getElementById('quiz-page-title');
         const quizPageSubtitle = document.getElementById('quiz-page-subtitle');
 
         function resetNavStyles() {
-            btnConcepts.classList.remove('bg-indigo-800', 'text-white');
-            btnConcepts.classList.add('text-indigo-100', 'hover:bg-indigo-700');
-            btnQuiz.classList.remove('bg-indigo-800', 'text-white');
-            btnQuiz.classList.add('text-indigo-100', 'hover:bg-indigo-700');
-            btnHardQuiz.classList.remove('bg-indigo-800', 'text-white');
-            btnHardQuiz.classList.add('text-indigo-100', 'hover:bg-indigo-700');
+            [btnConcepts, btnQuiz, btnHardQuiz, btnMixedQuiz].forEach(btn => {
+                btn.classList.remove('bg-indigo-800', 'text-white');
+                btn.classList.add('text-indigo-100', 'hover:bg-indigo-700');
+            });
         }
 
         btnConcepts.addEventListener('click', () => {
             resetNavStyles();
             btnConcepts.classList.add('bg-indigo-800', 'text-white');
+            btnConcepts.classList.remove('text-indigo-100', 'hover:bg-indigo-700');
             
             pageConcepts.classList.remove('hidden');
             pageConcepts.classList.add('fade-in');
             pageQuiz.classList.add('hidden');
             pageQuiz.classList.remove('fade-in');
+            
+            // Re-draw canvas on concept page display to avoid sizing issues
+            drawGraph();
         });
 
-        btnQuiz.addEventListener('click', () => {
+        function openQuiz(title, subtitle, quizDataset) {
             resetNavStyles();
-            btnQuiz.classList.add('bg-indigo-800', 'text-white');
-            
             pageQuiz.classList.remove('hidden');
             pageQuiz.classList.add('fade-in');
             pageConcepts.classList.add('hidden');
             pageConcepts.classList.remove('fade-in');
             
-            quizPageTitle.innerText = "Lesson 2 Quiz";
-            quizPageSubtitle.innerText = "Test your knowledge of the Unit Circle and Parent Graphs!";
-            activeQuizData = standardQuizData;
+            quizPageTitle.innerText = title;
+            quizPageSubtitle.innerText = subtitle;
+            activeQuizData = quizDataset;
             restartBtn.click();
             
             if (window.MathJax && window.MathJax.typesetPromise) {
                 MathJax.typesetPromise();
             }
+        }
+
+        btnQuiz.addEventListener('click', () => {
+            btnQuiz.classList.add('bg-indigo-800', 'text-white');
+            btnQuiz.classList.remove('text-indigo-100', 'hover:bg-indigo-700');
+            openQuiz("Lesson 2 Quiz", "Test your knowledge of the Unit Circle and Parent Graphs!", standardQuizData);
         });
 
         btnHardQuiz.addEventListener('click', () => {
-            resetNavStyles();
             btnHardQuiz.classList.add('bg-indigo-800', 'text-white');
-            
-            pageQuiz.classList.remove('hidden');
-            pageQuiz.classList.add('fade-in');
-            pageConcepts.classList.add('hidden');
-            pageConcepts.classList.remove('fade-in');
-            
-            quizPageTitle.innerText = "Challenge Quiz";
-            quizPageSubtitle.innerText = "Tackle these harder questions to master the concepts!";
-            activeQuizData = hardQuizData;
-            restartBtn.click();
-            
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                MathJax.typesetPromise();
-            }
+            btnHardQuiz.classList.remove('text-indigo-100', 'hover:bg-indigo-700');
+            openQuiz("Challenge Quiz", "Tackle these harder questions to master the concepts!", hardQuizData);
         });
 
-        // Quiz Logic & Data
+        btnMixedQuiz.addEventListener('click', () => {
+            btnMixedQuiz.classList.add('bg-indigo-800', 'text-white');
+            btnMixedQuiz.classList.remove('text-indigo-100', 'hover:bg-indigo-700');
+            openQuiz("Lesson 1 & 3 Quiz", "Test your knowledge on Periodic Phenomena and Transformations!", mixedQuizData);
+        });
+
+        /* ================= INTERACTIVE CANVAS GRAPH LOGIC ================= */
+        const canvas = document.getElementById('trigCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // UI Controls
+        const toggleSin = document.getElementById('toggle-sin');
+        const toggleCos = document.getElementById('toggle-cos');
+        const toggleTan = document.getElementById('toggle-tan');
+        const sliderAmp = document.getElementById('slider-amp');
+        const sliderFreq = document.getElementById('slider-freq');
+        const valAmp = document.getElementById('val-amp');
+        const valFreq = document.getElementById('val-freq');
+
+        function resizeCanvas() {
+            // Make canvas internal resolution match container dimensions for sharp lines
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+            drawGraph();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawGraph() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const w = canvas.width;
+            const h = canvas.height;
+            const originX = w / 2;
+            const originY = h / 2;
+
+            // X-axis maps from -360 deg to +360 deg
+            const rangeX = 720; 
+            const scaleX = w / rangeX; 
+            
+            // Y-axis maps roughly from -4 to 4
+            const rangeY = 8;
+            const scaleY = h / rangeY;
+
+            // Draw Grid
+            ctx.beginPath();
+            ctx.strokeStyle = '#e2e8f0'; // slate-200
+            ctx.lineWidth = 1;
+            // Vertical grid lines every 90 degrees
+            for (let deg = -360; deg <= 360; deg += 90) {
+                let px = originX + (deg * scaleX);
+                ctx.moveTo(px, 0); ctx.lineTo(px, h);
+            }
+            // Horizontal grid lines every 1 unit
+            for (let unit = -4; unit <= 4; unit++) {
+                let py = originY - (unit * scaleY);
+                ctx.moveTo(0, py); ctx.lineTo(w, py);
+            }
+            ctx.stroke();
+
+            // Draw Main Axes
+            ctx.beginPath();
+            ctx.strokeStyle = '#94a3b8'; // slate-400
+            ctx.lineWidth = 2;
+            ctx.moveTo(0, originY); ctx.lineTo(w, originY); // X axis
+            ctx.moveTo(originX, 0); ctx.lineTo(originX, h); // Y axis
+            ctx.stroke();
+
+            // Values from sliders
+            const a = parseFloat(sliderAmp.value);
+            const k = parseFloat(sliderFreq.value);
+
+            // Graph Drawing Helper
+            function plotFunction(fn, color, isTan = false) {
+                ctx.beginPath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2.5;
+                ctx.lineJoin = 'round';
+                
+                let prevPy = null;
+
+                for(let px = 0; px <= w; px++) {
+                    // Convert pixel x back to degrees, then to radians
+                    const deg = (px - originX) / scaleX;
+                    const rad = deg * (Math.PI / 180);
+                    
+                    // Apply transformations: y = a * fn(k * x)
+                    let yVal = a * fn(k * rad);
+                    
+                    const py = originY - (yVal * scaleY);
+
+                    // Handle tangent asymptotes to prevent vertical line drawing
+                    if (isTan) {
+                        if (prevPy !== null && Math.abs(py - prevPy) > h/2) {
+                            ctx.stroke(); // Break the line
+                            ctx.beginPath();
+                            ctx.moveTo(px, py);
+                        } else {
+                            if (px === 0) ctx.moveTo(px, py);
+                            else ctx.lineTo(px, py);
+                        }
+                    } else {
+                        if (px === 0) ctx.moveTo(px, py);
+                        else ctx.lineTo(px, py);
+                    }
+                    prevPy = py;
+                }
+                ctx.stroke();
+            }
+
+            // Draw toggled functions
+            if (toggleSin.checked) plotFunction(Math.sin, '#3b82f6'); // blue-500
+            if (toggleCos.checked) plotFunction(Math.cos, '#14b8a6'); // teal-500
+            if (toggleTan.checked) plotFunction(Math.tan, '#a855f7', true); // purple-500
+        }
+
+        // Add event listeners to controls
+        [toggleSin, toggleCos, toggleTan].forEach(cb => cb.addEventListener('change', drawGraph));
+        
+        sliderAmp.addEventListener('input', (e) => {
+            valAmp.innerText = parseFloat(e.target.value).toFixed(1);
+            drawGraph();
+        });
+        
+        sliderFreq.addEventListener('input', (e) => {
+            valFreq.innerText = parseFloat(e.target.value).toFixed(1);
+            drawGraph();
+        });
+
+
+        /* ================= QUIZ LOGIC & DATA ================= */
         const standardQuizData = [
             {
                 question: "On the unit circle, what does the y-coordinate of a point $(x, y)$ represent?",
-                options: [
-                    "$\\cos \\theta$",
-                    "$\\sin \\theta$",
-                    "$\\tan \\theta$",
-                    "The radius of the circle"
-                ],
+                options: ["$\\cos \\theta$", "$\\sin \\theta$", "$\\tan \\theta$", "The radius of the circle"],
                 correct: 1,
                 explanation: "On a unit circle where the radius $r = 1$, the ratio $\\sin \\theta = \\frac{y}{r}$ simplifies to just $\\sin \\theta = y$."
             },
@@ -324,12 +516,7 @@
             },
             {
                 question: "According to the CAST rule, in which quadrant(s) is the cosine ratio positive?",
-                options: [
-                    "Quadrant I only",
-                    "Quadrants II and III",
-                    "Quadrants I and IV",
-                    "Quadrants III and IV"
-                ],
+                options: ["Quadrant I only", "Quadrants II and III", "Quadrants I and IV", "Quadrants III and IV"],
                 correct: 2,
                 explanation: "Using CAST (Quad IV = C, Quad I = A): Cosine is positive in Quadrant IV, and ALL ratios are positive in Quadrant I."
             },
@@ -341,12 +528,7 @@
             },
             {
                 question: "Which of the following describes the graph of $y = \\sin \\theta$?",
-                options: [
-                    "Starts at its maximum peak of 1 at 0°.",
-                    "Consists of curves separated by vertical asymptotes.",
-                    "Starts at the origin (0,0) and heads upwards to a maximum of 1.",
-                    "Starts at (0, -1) and heads upwards."
-                ],
+                options: ["Starts at its maximum peak of 1 at 0°.", "Consists of curves separated by vertical asymptotes.", "Starts at the origin (0,0) and heads upwards to a maximum of 1.", "Starts at (0, -1) and heads upwards."],
                 correct: 2,
                 explanation: "The parent sine graph always starts at the origin $(0°, 0)$ and immediately rises to its peak at $90°$."
             },
@@ -358,23 +540,13 @@
             },
             {
                 question: "At which angles does the parent graph $y = \\cos \\theta$ reach its maximum value of 1 (within one positive cycle 0° to 360°)?",
-                options: [
-                    "90° and 270°",
-                    "180° only",
-                    "0° and 180°",
-                    "0° and 360°"
-                ],
+                options: ["90° and 270°", "180° only", "0° and 180°", "0° and 360°"],
                 correct: 3,
                 explanation: "The cosine graph starts at its peak at 0°, dips down to its minimum at 180°, and returns to its peak at 360°."
             },
             {
                 question: "If an angle terminates in Quadrant II, what are the signs of its primary trig ratios?",
-                options: [
-                    "Sine (+), Cosine (+), Tangent (+)",
-                    "Sine (+), Cosine (-), Tangent (-)",
-                    "Sine (-), Cosine (+), Tangent (-)",
-                    "Sine (-), Cosine (-), Tangent (+)"
-                ],
+                options: ["Sine (+), Cosine (+), Tangent (+)", "Sine (+), Cosine (-), Tangent (-)", "Sine (-), Cosine (+), Tangent (-)", "Sine (-), Cosine (-), Tangent (+)"],
                 correct: 1,
                 explanation: "The 'S' in CAST stands for Quadrant II, meaning ONLY Sine is positive. Therefore, Cosine and Tangent are negative."
             },
@@ -386,12 +558,7 @@
             },
             {
                 question: "What are the zeros (x-intercepts) of the parent function $y = \\sin \\theta$ between 0° and 360° inclusive?",
-                options: [
-                    "90° and 270°",
-                    "0°, 180°, and 360°",
-                    "180° only",
-                    "0° and 360° only"
-                ],
+                options: ["90° and 270°", "0°, 180°, and 360°", "180° only", "0° and 360° only"],
                 correct: 1,
                 explanation: "The sine wave starts on the axis at 0°, crosses the axis exactly halfway through its cycle at 180°, and finishes on the axis at 360°."
             }
@@ -424,12 +591,7 @@
             },
             {
                 question: "As $\\theta$ approaches $90^\\circ$ from values less than $90^\\circ$ (e.g., $89^\\circ, 89.9^\\circ$), what happens to the value of $\\tan \\theta$?",
-                options: [
-                    "It approaches 0",
-                    "It approaches 1",
-                    "It approaches positive infinity",
-                    "It approaches negative infinity"
-                ],
+                options: ["It approaches 0", "It approaches 1", "It approaches positive infinity", "It approaches negative infinity"],
                 correct: 2,
                 explanation: "As you get closer to $90^\\circ$ from the left side, $\\sin \\theta$ is close to 1 and $\\cos \\theta$ gets closer and closer to a tiny positive number. Dividing by a tiny positive number results in a massive positive number (positive infinity)."
             },
@@ -441,52 +603,94 @@
             },
             {
                 question: "Which of the following equations represents the fundamental trigonometric identity derived from the unit circle equation $x^2 + y^2 = 1$?",
-                options: [
-                    "$\\sin \\theta + \\cos \\theta = 1$",
-                    "$\\tan^2 \\theta + 1 = \\sec^2 \\theta$",
-                    "$\\sin^2 \\theta + \\cos^2 \\theta = 1$",
-                    "$\\sin \\theta \\cdot \\cos \\theta = 1$"
-                ],
+                options: ["$\\sin \\theta + \\cos \\theta = 1$", "$\\tan^2 \\theta + 1 = \\sec^2 \\theta$", "$\\sin^2 \\theta + \\cos^2 \\theta = 1$", "$\\sin \\theta \\cdot \\cos \\theta = 1$"],
                 correct: 2,
                 explanation: "Since $x = \\cos \\theta$ and $y = \\sin \\theta$ on the unit circle, substituting these into $x^2 + y^2 = 1$ yields the Pythagorean identity $\\cos^2 \\theta + \\sin^2 \\theta = 1$."
             },
             {
                 question: "For which angle $\\theta$ in the interval $0^\\circ \\le \\theta \\le 360^\\circ$ is it true that $\\sin \\theta = -\\cos \\theta$?",
-                options: [
-                    "$45^\\circ$ and $225^\\circ$",
-                    "$135^\\circ$ and $315^\\circ$",
-                    "$90^\\circ$ and $270^\\circ$",
-                    "$180^\\circ$ and $360^\\circ$"
-                ],
+                options: ["$45^\\circ$ and $225^\\circ$", "$135^\\circ$ and $315^\\circ$", "$90^\\circ$ and $270^\\circ$", "$180^\\circ$ and $360^\\circ$"],
                 correct: 1,
                 explanation: "$\\sin \\theta = -\\cos \\theta$ means $\\frac{\\sin \\theta}{\\cos \\theta} = -1$, which means $\\tan \\theta = -1$. Tangent is -1 at $135^\\circ$ (Quad II) and $315^\\circ$ (Quad IV)."
             },
             {
                 question: "What is the range of the parent function $y = \\tan \\theta$?",
-                options: [
-                    "$-1 \\le y \\le 1$",
-                    "$0 \\le y \\le 360^\\circ$",
-                    "$y \\ne 90^\\circ + 180^\\circ k$",
-                    "All real numbers ($\\mathbb{R}$)"
-                ],
+                options: ["$-1 \\le y \\le 1$", "$0 \\le y \\le 360^\\circ$", "$y \\ne 90^\\circ + 180^\\circ k$", "All real numbers ($\\mathbb{R}$)"],
                 correct: 3,
                 explanation: "While the domain of tangent is restricted by vertical asymptotes, its range extends from negative infinity to positive infinity, covering all real numbers."
             },
             {
                 question: "Which of the following describes the symmetry of the parent sine and cosine graphs?",
-                options: [
-                    "Sine is symmetrical about the y-axis; Cosine has rotational symmetry about the origin.",
-                    "Cosine is symmetrical about the y-axis; Sine has rotational symmetry about the origin.",
-                    "Both are symmetrical about the y-axis.",
-                    "Neither graph possesses symmetry."
-                ],
+                options: ["Sine is symmetrical about the y-axis; Cosine has rotational symmetry about the origin.", "Cosine is symmetrical about the y-axis; Sine has rotational symmetry about the origin.", "Both are symmetrical about the y-axis.", "Neither graph possesses symmetry."],
                 correct: 1,
                 explanation: "Cosine is an even function, meaning it reflects perfectly across the y-axis ($y = \\cos \\theta$ is the same for positive and negative $\\theta$). Sine is an odd function, meaning it has $180^\\circ$ rotational symmetry about the origin."
             }
         ];
 
-        let activeQuizData = standardQuizData;
+        const mixedQuizData = [
+            {
+                question: "A periodic function has a maximum value of $15$ and a minimum value of $3$. What is the equation of the axis of the curve?",
+                options: ["$y = 6$", "$y = 9$", "$y = 12$", "$y = 18$"],
+                correct: 1,
+                explanation: "The axis of the curve is calculated using $\\frac{\\text{max} + \\text{min}}{2}$. Therefore, $\\frac{15 + 3}{2} = \\frac{18}{2} = 9$."
+            },
+            {
+                question: "In the transformation equation $y = a \\sin[k(x - d)] + c$, which parameter represents the vertical shift?",
+                options: ["$a$", "$k$", "$d$", "$c$"],
+                correct: 3,
+                explanation: "The parameter $c$ represents the vertical shift (up or down) and it defines the location of the axis of the curve."
+            },
+            {
+                question: "What is the amplitude of the function $y = -4 \\cos[2(x - 30^\\circ)] + 5$?",
+                options: ["$-4$", "$4$", "$2$", "$5$"],
+                correct: 1,
+                explanation: "The amplitude is the absolute value of $a$. Since $a = -4$, the amplitude is $|-4| = 4$. The negative sign indicates a vertical reflection."
+            },
+            {
+                question: "If a function has a $k$-value of $3$, what is the period of the transformed sine function?",
+                options: ["$3^\\circ$", "$120^\\circ$", "$180^\\circ$", "$1080^\\circ$"],
+                correct: 1,
+                explanation: "The period is calculated using the formula $\\text{Period} = \\frac{360^\\circ}{|k|}$. Therefore, $\\frac{360^\\circ}{3} = 120^\\circ$."
+            },
+            {
+                question: "A Ferris wheel has a diameter of $40\\text{ m}$ and its axle is $22\\text{ m}$ above the ground. What is the amplitude of a rider's vertical position?",
+                options: ["$20\\text{ m}$", "$22\\text{ m}$", "$40\\text{ m}$", "$42\\text{ m}$"],
+                correct: 0,
+                explanation: "The amplitude represents the radius of the Ferris wheel. Since the diameter is $40\\text{ m}$, the amplitude is $\\frac{40}{2} = 20\\text{ m}$."
+            },
+            {
+                question: "In the function $y = 2 \\sin(x + 45^\\circ) - 1$, what is the phase shift?",
+                options: ["$45^\\circ$ right", "$45^\\circ$ left", "$1^\\circ$ down", "$2^\\circ$ left"],
+                correct: 1,
+                explanation: "The term $(x + 45^\\circ)$ can be written as $(x - (-45^\\circ))$. This indicates a phase shift of $45^\\circ$ to the left."
+            },
+            {
+                question: "Which of the following represents a periodic phenomenon?",
+                options: ["A ball dropped from a height that bounces lower each time.", "The distance a car travels at a constant speed over time.", "The changing phases of the moon observed over several months.", "The balance of a bank account growing with compound interest."],
+                correct: 2,
+                explanation: "The phases of the moon repeat in identical, self-repeating cycles over a regular period (about 29.5 days), making it periodic."
+            },
+            {
+                question: "A cosine graph has a period of $90^\\circ$. What is the value of $k$ in its equation?",
+                options: ["$0.25$", "$2$", "$4$", "$90$"],
+                correct: 2,
+                explanation: "Using the formula $k = \\frac{360^\\circ}{\\text{Period}}$, we get $k = \\frac{360^\\circ}{90^\\circ} = 4$."
+            },
+            {
+                question: "If the parent function $y = \\sin \\theta$ is vertically stretched by a factor of 3 and translated 2 units up, what is the new equation?",
+                options: ["$y = \\sin(3\\theta) + 2$", "$y = 3 \\sin(\\theta + 2)$", "$y = 3 \\sin \\theta + 2$", "$y = 2 \\sin \\theta + 3$"],
+                correct: 2,
+                explanation: "A vertical stretch of 3 means $a = 3$, and a translation 2 units up means $c = 2$. Thus, $y = 3 \\sin \\theta + 2$."
+            },
+            {
+                question: "You are given a graph of a sinusoidal wave with a maximum at $y = 8$ and a minimum at $y = -2$. The closest maximum to the y-axis occurs at $x = 30^\\circ$. What is a possible cosine equation if the period is $360^\\circ$?",
+                options: ["$y = 5 \\cos(x - 30^\\circ) + 3$", "$y = 10 \\cos(x - 30^\\circ) + 6$", "$y = 5 \\cos(x + 30^\\circ) + 3$", "$y = 5 \\cos(x - 30^\\circ) - 2$"],
+                correct: 0,
+                explanation: "Amplitude $a = \\frac{8 - (-2)}{2} = 5$. Axis $c = \\frac{8 + (-2)}{2} = 3$. The period is $360^\\circ$ so $k = 1$. The closest peak is at $30^\\circ$ right, so $d = 30^\\circ$. Equation: $y = 5 \\cos(x - 30^\\circ) + 3$."
+            }
+        ];
 
+        let activeQuizData = standardQuizData;
         let currentQuestion = 0;
         let score = 0;
         let selectedOption = null;
@@ -638,7 +842,8 @@
             loadQuestion();
         };
 
-        // Initialize
+        // Initialize display
+        setTimeout(resizeCanvas, 100); // allow container to render before resizing canvas
         loadQuestion();
     </script>
 </body>
