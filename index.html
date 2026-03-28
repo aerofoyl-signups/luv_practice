@@ -3,848 +3,790 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 2: Primary Trig Functions</title>
+    <title>Periodic Behaviour & Phenomena Worksheet</title>
+    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- MathJax for rendering math formulas -->
+    <!-- MathJax for rendering mathematical formulas -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            }
-        };
-    </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#4338ca',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .fade-in { animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .input-field {
+            transition: all 0.3s ease;
         }
-        .option-label:hover { cursor: pointer; }
+        .correct-input {
+            border-color: #22c55e !important;
+            background-color: #f0fdf4 !important;
+            color: #166534 !important;
+        }
+        .incorrect-input {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+            color: #991b1b !important;
+        }
+        table { border-collapse: collapse; width: 100%; max-width: 100%; overflow-x: auto; display: block; }
+        th, td { border: 1px solid #d1d5db; padding: 0.5rem; text-align: center; font-size: 0.875rem; }
+        th { background-color: #f9fafb; font-weight: 600; }
         
-        /* CAST Rule grid styling */
-        .cast-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 4px;
-            background-color: #e5e7eb;
-            border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
+        /* Smooth reveal for explanations */
+        .explanation {
+            max-height: 0;
             overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease;
+            opacity: 0;
         }
-        .cast-quadrant {
-            background-color: white;
-            padding: 1.5rem;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Custom Toggle Switch */
-        .toggle-checkbox:checked {
-            right: 0;
-            border-color: #68D391;
-        }
-        .toggle-checkbox:checked + .toggle-label {
-            background-color: #68D391;
+        .explanation.show {
+            max-height: 500px;
+            padding: 1rem;
+            opacity: 1;
+            margin-top: 1rem;
         }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen text-slate-800">
+<body class="text-gray-800 antialiased pb-24">
 
-    <!-- Navigation -->
-    <nav class="bg-indigo-600 shadow-md">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row justify-between h-auto sm:h-16 py-4 sm:py-0">
-                <div class="flex items-center justify-center sm:justify-start mb-4 sm:mb-0">
-                    <span class="text-white text-xl font-bold">Trig Lessons</span>
-                </div>
-                <div class="flex flex-wrap items-center justify-center gap-2 sm:space-x-4">
-                    <button id="nav-concepts" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-indigo-800 focus:outline-none transition-colors">
-                        Concepts (Page 1)
-                    </button>
-                    <button id="nav-quiz" class="px-3 py-2 rounded-md text-sm font-medium text-indigo-100 hover:bg-indigo-700 hover:text-white focus:outline-none transition-colors">
-                        L2 Quiz
-                    </button>
-                    <button id="nav-hard-quiz" class="px-3 py-2 rounded-md text-sm font-medium text-indigo-100 hover:bg-indigo-700 hover:text-white focus:outline-none transition-colors">
-                        L2 Challenge
-                    </button>
-                    <button id="nav-mixed-quiz" class="px-3 py-2 rounded-md text-sm font-medium text-indigo-100 hover:bg-indigo-700 hover:text-white focus:outline-none transition-colors">
-                        L1 & L3 Quiz
-                    </button>
-                </div>
-            </div>
+    <div class="max-w-4xl mx-auto pt-10 px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">Periodic Behaviour & Phenomena</h1>
+            <p class="text-lg text-gray-600">Interactive Worksheet • MCR3U</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="flex border-b border-gray-200 mb-6 overflow-x-auto">
+            <button onclick="switchTab('page1')" id="tab-page1" class="whitespace-nowrap py-2 px-6 border-b-2 border-indigo-600 font-bold text-indigo-600 focus:outline-none transition-colors">Part 1: Periodic Behaviour</button>
+            <button onclick="switchTab('page2')" id="tab-page2" class="whitespace-nowrap py-2 px-6 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium focus:outline-none transition-colors">Part 2: Trig Functions</button>
         </div>
-    </nav>
 
-    <!-- Main Container -->
-    <main class="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 mt-4">
-
-        <!-- ================= PAGE 1: CONCEPTS ================= -->
-        <div id="page-concepts" class="fade-in">
-            <div class="mb-8 text-center">
-                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Graphs of the Primary Trig Functions</h1>
-                <p class="mt-2 text-lg text-gray-600">Review the Unit Circle, CAST Rule, and Parent Sinusoidal Graphs.</p>
-            </div>
-
-            <div class="space-y-8">
-                <!-- Concept 1: Unit Circle -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-                    <h2 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
-                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
-                        1. The Unit Circle
-                    </h2>
-                    <p class="text-gray-700 mb-4">
-                        The unit circle is a circle with a radius of $r = 1$ centered at the origin. Its equation is $x^2 + y^2 = 1$. 
-                        By picking a point $(x, y)$ on the circle formed by an angle $\theta$ from the positive x-axis, we define the primary trig ratios:
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                        <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
-                            <p class="font-semibold text-indigo-900 text-lg">Cosine</p>
-                            <p class="text-xl mt-2">$\cos \theta = \frac{x}{r} = x$</p>
-                        </div>
-                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                            <p class="font-semibold text-blue-900 text-lg">Sine</p>
-                            <p class="text-xl mt-2">$\sin \theta = \frac{y}{r} = y$</p>
-                        </div>
-                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
-                            <p class="font-semibold text-purple-900 text-lg">Tangent</p>
-                            <p class="text-xl mt-2">$\tan \theta = \frac{y}{x} = \frac{\sin \theta}{\cos \theta}$</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Concept 2: CAST Rule -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-                    <h2 class="text-2xl font-bold text-indigo-700 mb-4">2. The CAST Rule</h2>
-                    <div class="flex flex-col md:flex-row gap-8 items-center">
-                        <div class="flex-1 text-gray-700">
-                            <p class="mb-4">The CAST Rule helps you quickly determine which primary trigonometric ratios are positive in each of the four quadrants on the Cartesian plane.</p>
-                            <ul class="space-y-2 list-disc list-inside">
-                                <li><strong>Quadrant I (A):</strong> <u>All</u> ratios are positive.</li>
-                                <li><strong>Quadrant II (S):</strong> Only <u>Sine</u> is positive.</li>
-                                <li><strong>Quadrant III (T):</strong> Only <u>Tangent</u> is positive.</li>
-                                <li><strong>Quadrant IV (C):</strong> Only <u>Cosine</u> is positive.</li>
-                            </ul>
-                        </div>
-                        <div class="flex-1 w-full max-w-sm">
-                            <div class="cast-grid text-xl font-bold">
-                                <div class="cast-quadrant text-blue-600">
-                                    <span class="text-3xl">S</span>
-                                    <span class="text-sm font-medium text-gray-500 mt-1">Quad II</span>
-                                </div>
-                                <div class="cast-quadrant text-indigo-600">
-                                    <span class="text-3xl">A</span>
-                                    <span class="text-sm font-medium text-gray-500 mt-1">Quad I</span>
-                                </div>
-                                <div class="cast-quadrant text-purple-600">
-                                    <span class="text-3xl">T</span>
-                                    <span class="text-sm font-medium text-gray-500 mt-1">Quad III</span>
-                                </div>
-                                <div class="cast-quadrant text-teal-600">
-                                    <span class="text-3xl">C</span>
-                                    <span class="text-sm font-medium text-gray-500 mt-1">Quad IV</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Concept 3: Parent Graphs -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-                    <h2 class="text-2xl font-bold text-indigo-700 mb-4">3. Parent Graphs</h2>
-                    <p class="text-gray-700 mb-6">Memorizing the key points of the primary trig functions is essential before exploring transformations.</p>
-                    
-                    <div class="space-y-6">
-                        <!-- Sine -->
-                        <div class="border-l-4 border-blue-500 pl-4">
-                            <h3 class="text-xl font-bold text-gray-800">$y = \sin \theta$</h3>
-                            <ul class="mt-2 text-gray-600 space-y-1 text-sm md:text-base">
-                                <li><strong>Shape:</strong> Wave starting at the origin (0,0), heading upwards.</li>
-                                <li><strong>Key Points (0° to 360°):</strong> (0°, 0), (90°, 1), (180°, 0), (270°, -1), (360°, 0)</li>
-                                <li><strong>Period:</strong> 360°</li>
-                                <li><strong>Amplitude:</strong> 1</li>
-                                <li><strong>Max / Min:</strong> 1 / -1</li>
-                            </ul>
-                        </div>
-
-                        <!-- Cosine -->
-                        <div class="border-l-4 border-teal-500 pl-4">
-                            <h3 class="text-xl font-bold text-gray-800">$y = \cos \theta$</h3>
-                            <ul class="mt-2 text-gray-600 space-y-1 text-sm md:text-base">
-                                <li><strong>Shape:</strong> Wave starting at its maximum peak (0,1).</li>
-                                <li><strong>Key Points (0° to 360°):</strong> (0°, 1), (90°, 0), (180°, -1), (270°, 0), (360°, 1)</li>
-                                <li><strong>Period:</strong> 360°</li>
-                                <li><strong>Amplitude:</strong> 1</li>
-                                <li><strong>Max / Min:</strong> 1 / -1</li>
-                            </ul>
-                        </div>
-
-                        <!-- Tangent -->
-                        <div class="border-l-4 border-purple-500 pl-4">
-                            <h3 class="text-xl font-bold text-gray-800">$y = \tan \theta$</h3>
-                            <ul class="mt-2 text-gray-600 space-y-1 text-sm md:text-base">
-                                <li><strong>Shape:</strong> Series of upward curves separated by vertical asymptotes.</li>
-                                <li><strong>Key Features:</strong> Has vertical asymptotes wherever $\cos \theta = 0$ (e.g., 90°, 270°).</li>
-                                <li><strong>Period:</strong> 180°</li>
-                                <li><strong>Amplitude:</strong> None (Undefined, approaches infinity)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Concept 4: Interactive Graph -->
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-                    <h2 class="text-2xl font-bold text-indigo-700 mb-4">4. Interactive Graph Viewer</h2>
-                    <p class="text-gray-700 mb-6">Toggle the functions below and adjust the sliders to see how parameters $a$ (Amplitude) and $k$ (Frequency) transform the parent graphs.</p>
-                    
-                    <div class="flex flex-col lg:flex-row gap-8">
-                        <!-- Canvas Container -->
-                        <div class="flex-grow">
-                            <div class="relative w-full aspect-video bg-slate-100 rounded-xl overflow-hidden border-2 border-slate-200">
-                                <canvas id="trigCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
-                            </div>
-                            <div class="flex justify-between text-xs text-gray-500 mt-1 px-1">
-                                <span>-360°</span>
-                                <span>-180°</span>
-                                <span>0°</span>
-                                <span>180°</span>
-                                <span>360°</span>
-                            </div>
-                        </div>
-
-                        <!-- Controls -->
-                        <div class="w-full lg:w-64 space-y-6 bg-gray-50 p-5 rounded-xl border border-gray-200">
+        <form id="worksheet-form" onsubmit="return false;">
+            
+            <!-- Page 1 Container -->
+            <div id="page1" class="block">
+            
+            <!-- Question 1 -->
+            <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">1</span>
+                    <div class="w-full">
+                        <p class="text-lg mb-4 text-gray-700">A periodic function \( f(x) \) has a period of 8. The values of \( f(1) \), \( f(5) \), and \( f(7) \) are -3, 2, and 8, respectively. Predict the value of each of the following:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
-                                <h3 class="font-bold text-gray-800 mb-3 border-b pb-1">Visibility</h3>
-                                <label class="flex items-center space-x-3 mb-2 cursor-pointer">
-                                    <input type="checkbox" id="toggle-sin" checked class="form-checkbox h-5 w-5 text-blue-500 rounded border-gray-300 focus:ring-blue-500">
-                                    <span class="text-blue-600 font-semibold">Sine ($y = \sin \theta$)</span>
-                                </label>
-                                <label class="flex items-center space-x-3 mb-2 cursor-pointer">
-                                    <input type="checkbox" id="toggle-cos" checked class="form-checkbox h-5 w-5 text-teal-500 rounded border-gray-300 focus:ring-teal-500">
-                                    <span class="text-teal-600 font-semibold">Cosine ($y = \cos \theta$)</span>
-                                </label>
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="checkbox" id="toggle-tan" class="form-checkbox h-5 w-5 text-purple-500 rounded border-gray-300 focus:ring-purple-500">
-                                    <span class="text-purple-600 font-semibold">Tangent ($y = \tan \theta$)</span>
-                                </label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">a) \( f(9) = \)</label>
+                                <input type="number" id="q1a" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none" placeholder="Enter value">
                             </div>
-
                             <div>
-                                <h3 class="font-bold text-gray-800 mb-3 border-b pb-1">Transformations</h3>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 flex justify-between">
-                                        <span>Amplitude ($a$)</span>
-                                        <span id="val-amp" class="text-indigo-600 font-bold">1.0</span>
-                                    </label>
-                                    <input type="range" id="slider-amp" min="0.5" max="3" step="0.1" value="1" class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer mt-2">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 flex justify-between">
-                                        <span>Frequency ($k$)</span>
-                                        <span id="val-freq" class="text-indigo-600 font-bold">1.0</span>
-                                    </label>
-                                    <input type="range" id="slider-freq" min="0.5" max="4" step="0.5" value="1" class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer mt-2">
-                                </div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">b) \( f(29) = \)</label>
+                                <input type="number" id="q1b" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none" placeholder="Enter value">
                             </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">c) \( f(63) = \)</label>
+                                <input type="number" id="q1c" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none" placeholder="Enter value">
+                            </div>
+                        </div>
+
+                        <div id="exp1" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                            <strong>Explanation:</strong> Since the period is 8, \( f(x) = f(x + 8n) \) for any integer \( n \).<br>
+                            a) \( f(9) = f(1 + 8) = f(1) = -3 \)<br>
+                            b) \( f(29) = f(5 + 24) = f(5 + 3 \times 8) = f(5) = 2 \)<br>
+                            c) \( f(63) = f(7 + 56) = f(7 + 7 \times 8) = f(7) = 8 \)
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ================= PAGE 2: QUIZ INTERFACE ================= -->
-        <div id="page-quiz" class="hidden">
-            <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden relative">
-                <!-- Header -->
-                <div class="bg-indigo-600 p-6 text-white text-center">
-                    <h1 id="quiz-page-title" class="text-2xl font-bold">Lesson 2 Quiz</h1>
-                    <p id="quiz-page-subtitle" class="text-indigo-200 mt-2">Test your knowledge of the Unit Circle and Parent Graphs!</p>
-                </div>
+            <!-- Question 2 -->
+            <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">2</span>
+                    <div class="w-full">
+                        <p class="text-lg mb-4 text-gray-700">A coach measures the velocity of air as an athlete inhales and exhales after working out. The following table shows the velocity at regular intervals.</p>
+                        
+                        <div class="mb-6 overflow-hidden rounded-lg border border-gray-200">
+                            <table>
+                                <tr>
+                                    <th>Time (s)</th>
+                                    <td>0.0</td><td>0.5</td><td>1.0</td><td>1.5</td><td>2.0</td><td>2.5</td><td>3.0</td><td>3.5</td><td>4.0</td><td>4.5</td><td>5.0</td><td>5.5</td><td>6.0</td>
+                                </tr>
+                                <tr>
+                                    <th>Velocity (m/s)</th>
+                                    <td>1.8</td><td>1.2</td><td>0.0</td><td>-1.2</td><td>-1.8</td><td>-1.2</td><td>0.0</td><td>1.2</td><td>1.8</td><td>1.2</td><td>0.0</td><td>-1.2</td><td>-1.8</td>
+                                </tr>
+                            </table>
+                        </div>
 
-                <!-- Progress Bar -->
-                <div class="w-full bg-gray-200 h-2">
-                    <div id="progress-bar" class="bg-green-500 h-2 transition-all duration-300" style="width: 0%;"></div>
-                </div>
+                        <div class="space-y-4">
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">a) What is the maximum velocity of the air?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" step="0.1" id="q2a" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">m/s</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">b) How long does it take for one complete cycle of inhaling and exhaling?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" step="0.1" id="q2b" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">s</span>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Quiz Container -->
-                <div id="quiz-container" class="p-8 fade-in">
-                    <div id="question-header" class="text-sm text-gray-500 font-semibold mb-2 uppercase tracking-wide">Question 1 of 10</div>
-                    <h2 id="question-text" class="text-xl font-medium text-gray-800 mb-6">Loading question...</h2>
-                    
-                    <div id="options-container" class="space-y-3">
-                        <!-- Options will be injected here via JS -->
+                        <div id="exp2" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                            <strong>Explanation:</strong> <br>
+                            a) The maximum positive value in the velocity row is 1.8 m/s.<br>
+                            b) A full cycle starts at 1.8 m/s (time 0.0), goes down to -1.8 m/s, and returns exactly to 1.8 m/s at time 4.0s. Therefore, the period (one cycle) is 4.0 seconds.
+                        </div>
                     </div>
-
-                    <div id="feedback-container" class="mt-6 hidden p-4 rounded-lg">
-                        <p id="feedback-title" class="font-bold text-lg mb-1"></p>
-                        <p id="feedback-text" class="text-gray-700"></p>
-                    </div>
-
-                    <div class="mt-8 flex justify-end">
-                        <button id="submit-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors hidden">Submit Answer</button>
-                        <button id="next-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors hidden">Next Question</button>
-                    </div>
-                </div>
-
-                <!-- Results Container -->
-                <div id="results-container" class="p-8 text-center hidden">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Quiz Complete!</h2>
-                    <div class="text-6xl mb-6">🏆</div>
-                    <p class="text-xl text-gray-600 mb-2">Your Score:</p>
-                    <p id="score-text" class="text-4xl font-bold text-indigo-600 mb-6">0 / 10</p>
-                    <p id="score-message" class="text-gray-600 mb-8"></p>
-                    <button id="restart-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors">Retake Quiz</button>
                 </div>
             </div>
-        </div>
-    </main>
+
+            <!-- Question 3 -->
+            <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">3</span>
+                    <div class="w-full">
+                        <p class="text-lg mb-4 text-gray-700">While visiting the east coast of Canada, Ranouf notices that the water level at a town dock changes during the day as the tides come in and go out. Markings show a high tide of <strong>3.3 meters at 6:30 a.m.</strong>, a low tide of <strong>0.7 meters at 12:40 p.m.</strong>, and a high tide again at <strong>6:50 p.m.</strong></p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">a) Estimate the period of the fluctuation.</label>
+                                <select id="q3a" class="input-field w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none bg-white">
+                                    <option value="">-- Select --</option>
+                                    <option value="6h10m">6 hours 10 minutes</option>
+                                    <option value="12h20m">12 hours 20 minutes</option>
+                                    <option value="24h">24 hours</option>
+                                    <option value="12h40m">12 hours 40 minutes</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">b) Estimate the amplitude of the pattern.</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" step="0.1" id="q3b" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">m</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="exp3" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                            <strong>Explanation:</strong> <br>
+                            a) The period is the time between two consecutive high tides: from 6:30 a.m. to 6:50 p.m. is exactly 12 hours and 20 minutes.<br>
+                            b) Amplitude is calculated as: \( \frac{\text{Max} - \text{Min}}{2} = \frac{3.3 - 0.7}{2} = \frac{2.6}{2} = 1.3 \) meters.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">4</span>
+                    <div class="w-full">
+                        <p class="text-lg mb-4 text-gray-700">The people mover at an airport shuttles between the main terminal and a satellite terminal 300 meters away. A one-way trip, moving at a constant speed, takes 1 minute, and the car remains at each terminal for 30 seconds before leaving.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">a) What is the period of the motion?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" step="0.5" id="q4a" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">min</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">b) What is the amplitude of the motion?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" id="q4b" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">m</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="exp4" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                            <strong>Explanation:</strong> <br>
+                            a) One complete cycle includes traveling there (1 min), waiting (0.5 min), traveling back (1 min), and waiting again (0.5 min). Total Period = 1 + 0.5 + 1 + 0.5 = 3 minutes.<br>
+                            b) The distance fluctuates between 0m and 300m. Amplitude = \( \frac{300 - 0}{2} = 150 \) meters.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">5</span>
+                    <div class="w-full">
+                        <p class="text-lg mb-4 text-gray-700">Classify each of the following scenarios as periodic or not periodic.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 p-3 bg-gray-50 rounded-lg">
+                                <label class="font-medium text-gray-700">a) Some forms of bacteria double in number every 20 minutes.</label>
+                                <select id="q5a" class="input-field w-full md:w-48 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary outline-none bg-white">
+                                    <option value="">-- Select --</option>
+                                    <option value="periodic">Periodic</option>
+                                    <option value="not_periodic">Not Periodic</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 p-3 bg-gray-50 rounded-lg">
+                                <label class="font-medium text-gray-700">b) An electrocardiograph monitors the electrical currents generated by the heart.</label>
+                                <select id="q5b" class="input-field w-full md:w-48 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary outline-none bg-white">
+                                    <option value="">-- Select --</option>
+                                    <option value="periodic">Periodic</option>
+                                    <option value="not_periodic">Not Periodic</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 p-3 bg-gray-50 rounded-lg">
+                                <label class="font-medium text-gray-700">c) A tow truck is parked by the side of a dark road with its rotating amber light on.</label>
+                                <select id="q5c" class="input-field w-full md:w-48 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary outline-none bg-white">
+                                    <option value="">-- Select --</option>
+                                    <option value="periodic">Periodic</option>
+                                    <option value="not_periodic">Not Periodic</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="exp5" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                            <strong>Explanation:</strong> <br>
+                            a) <strong>Not Periodic:</strong> The population grows exponentially, it does not cycle back to original values.<br>
+                            b) <strong>Periodic:</strong> A healthy heart beats in a regular, repeating rhythm.<br>
+                            c) <strong>Periodic:</strong> The rotating light sweeps across the viewer's eyes at a constant, repeating rate.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">6</span>
+                    <div class="w-full">
+                        <p class="text-lg mb-4 text-gray-700">The Bay of Fundy has the highest tides in the world. A graph of the tides shows a maximum water depth of 12 meters at 2:30 AST, and a minimum depth of 1 meter at 8:45 AST. The next maximum depth of 12 meters occurs at 15:00 AST.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">a) What is the period of the function?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" step="0.5" id="q6a" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">h</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">b) What is the amplitude of the curve?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" step="0.5" id="q6b" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">m</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">c) Determine the equation of the axis (\( y = ? \))</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" step="0.5" id="q6c" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="exp6" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                            <strong>Explanation:</strong> <br>
+                            a) Period is the time between consecutive maximums: 15:00 - 02:30 = 12.5 hours.<br>
+                            b) Amplitude = \( \frac{\text{Max} - \text{Min}}{2} = \frac{12 - 1}{2} = 5.5 \) m.<br>
+                            c) Equation of the axis = \( \frac{\text{Max} + \text{Min}}{2} = \frac{12 + 1}{2} = 6.5 \). So, \( y = 6.5 \).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">7</span>
+                    <div class="w-full">
+                        <p class="text-lg mb-4 text-gray-700">A rider's height above the ground on a Ferris wheel is a periodic function of time. You start at the bottom, reaching a minimum height of 1 m at \( t = 0 \) s. You reach the very top at a maximum height of 7 m at \( t = 4 \) s, and return to the bottom at \( t = 8 \) s.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">a) What is the period of this function?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" id="q7a" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">s</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">b) What is the diameter of the Ferris wheel?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" id="q7b" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">m</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">c) What is the height of the central axis above the ground?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" id="q7c" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">m</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="exp7" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                            <strong>Explanation:</strong> <br>
+                            a) A full cycle (bottom to top back to bottom) takes 8 seconds.<br>
+                            b) Diameter = Max Height - Min Height = 7 m - 1 m = 6 m.<br>
+                            c) Axis height = \( \frac{\text{Max} + \text{Min}}{2} = \frac{7 + 1}{2} = 4 \) m.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">8</span>
+                    <div class="w-full">
+                        <p class="text-lg mb-4 text-gray-700">Classify the following additional scenarios as periodic or not periodic.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 p-3 bg-gray-50 rounded-lg">
+                                <label class="font-medium text-gray-700">a) A model rocket is launched into the air, reaches its peak height, and falls back to the ground.</label>
+                                <select id="q8a" class="input-field w-full md:w-48 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary outline-none bg-white">
+                                    <option value="">-- Select --</option>
+                                    <option value="periodic">Periodic</option>
+                                    <option value="not_periodic">Not Periodic</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 p-3 bg-gray-50 rounded-lg">
+                                <label class="font-medium text-gray-700">b) Alex dribbles a basketball at a steady pace and height.</label>
+                                <select id="q8b" class="input-field w-full md:w-48 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary outline-none bg-white">
+                                    <option value="">-- Select --</option>
+                                    <option value="periodic">Periodic</option>
+                                    <option value="not_periodic">Not Periodic</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 p-3 bg-gray-50 rounded-lg">
+                                <label class="font-medium text-gray-700">c) You purchase a load of gravel and pay for the gravel plus a fixed delivery fee.</label>
+                                <select id="q8c" class="input-field w-full md:w-48 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary outline-none bg-white">
+                                    <option value="">-- Select --</option>
+                                    <option value="periodic">Periodic</option>
+                                    <option value="not_periodic">Not Periodic</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="exp8" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                            <strong>Explanation:</strong> <br>
+                            a) <strong>Not Periodic:</strong> The rocket has a single flight path; it does not cycle endlessly.<br>
+                            b) <strong>Periodic:</strong> The basketball's height cycles up and down repeatedly.<br>
+                            c) <strong>Not Periodic:</strong> This represents a linear relationship or a one-time transaction.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">9</span>
+                    <div class="w-full">
+                        <p class="text-lg mb-4 text-gray-700">Recall the periodic function \( f(x) \) from Question 1 which has a period of 8. The known values are \( f(1) = -3 \), \( f(5) = 2 \), and \( f(7) = 8 \).</p>
+                        
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                            <label class="font-medium text-gray-700 w-full md:w-1/2">Predict the value of \( f(40) \).</label>
+                            <select id="q9" class="input-field w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none bg-white">
+                                <option value="">-- Select --</option>
+                                <option value="-3">-3</option>
+                                <option value="2">2</option>
+                                <option value="8">8</option>
+                                <option value="cannot_predict">Cannot be predicted</option>
+                            </select>
+                        </div>
+
+                        <div id="exp9" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                            <strong>Explanation:</strong> <br>
+                            Because the period is 8, \( f(x) = f(x - 8) \). <br>
+                            Therefore, \( f(40) = f(32) = f(24) = f(16) = f(8) = f(0) \).<br>
+                            We only know the values for \( f(1), f(5), \) and \( f(7) \). Without knowing \( f(0) \) or \( f(8) \), the value cannot be predicted.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">10</span>
+                    <div class="w-full">
+                        <p class="text-lg mb-4 text-gray-700">Recall Ranouf's dock from Question 3. A high tide occurs at 6:30 a.m., a low tide at 12:40 p.m., and the next high tide at 6:50 p.m. (The period is 12 hours and 20 minutes).</p>
+                        
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                            <label class="font-medium text-gray-700 w-full md:w-1/2">Predict the exact time when the <strong>next low tide</strong> will occur.</label>
+                            <input type="time" id="q10" class="input-field w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none bg-white text-lg">
+                        </div>
+
+                        <div id="exp10" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                            <strong>Explanation:</strong> <br>
+                            The period is 12 hours and 20 minutes.<br>
+                            The previous low tide was at 12:40 p.m.<br>
+                            12:40 p.m. + 12 hours = 12:40 a.m.<br>
+                            12:40 a.m. + 20 minutes = 1:00 a.m.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div> <!-- End of Page 1 -->
+
+            <!-- Page 2 Container (Trig Functions) -->
+            <div id="page2" class="hidden">
+                
+                <!-- Question 11 -->
+                <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">11</span>
+                        <div class="w-full">
+                            <p class="text-lg mb-4 text-gray-700">For the basic trigonometric function \( y = \sin x \), what is the <strong>amplitude</strong> of its graph?</p>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">Amplitude:</label>
+                                <input type="number" id="p2q1" class="input-field w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                            </div>
+                            <div id="exp11" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                                <strong>Explanation:</strong> The graph of \( y = \sin x \) reaches a maximum of 1 and a minimum of -1. Amplitude = \( \frac{1 - (-1)}{2} = 1 \).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 12 -->
+                <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">12</span>
+                        <div class="w-full">
+                            <p class="text-lg mb-4 text-gray-700">For the basic trigonometric function \( y = \cos x \), what is the <strong>period</strong> of its graph in degrees?</p>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">Period (in degrees):</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" id="p2q2" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">°</span>
+                                </div>
+                            </div>
+                            <div id="exp12" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                                <strong>Explanation:</strong> The standard cosine curve completes one full cycle over \( 360^\circ \).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 13 -->
+                <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">13</span>
+                        <div class="w-full">
+                            <p class="text-lg mb-4 text-gray-700">Unlike sine and cosine, the tangent function \( y = \tan x \) has a different repeating length. What is the <strong>period</strong> of \( y = \tan x \) in degrees?</p>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">Period (in degrees):</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" id="p2q3" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">°</span>
+                                </div>
+                            </div>
+                            <div id="exp13" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                                <strong>Explanation:</strong> The tangent function repeats itself every \( 180^\circ \) (e.g., between asymptotes at -90° and 90°).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 14 -->
+                <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">14</span>
+                        <div class="w-full">
+                            <p class="text-lg mb-4 text-gray-700">Using the CAST rule, determine the sign of the trigonometric ratio: <strong>\( \cos 135^\circ \)</strong></p>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">Sign of ratio:</label>
+                                <select id="p2q4" class="input-field w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none bg-white">
+                                    <option value="">-- Select --</option>
+                                    <option value="positive">Positive</option>
+                                    <option value="negative">Negative</option>
+                                </select>
+                            </div>
+                            <div id="exp14" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                                <strong>Explanation:</strong> \( 135^\circ \) lies in Quadrant II. According to the CAST rule, only Sine (S) is positive in Quadrant II. Therefore, Cosine is negative.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 15 -->
+                <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">15</span>
+                        <div class="w-full">
+                            <p class="text-lg mb-4 text-gray-700">Using the CAST rule, determine the sign of the trigonometric ratio: <strong>\( \sin(-150^\circ) \)</strong></p>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">Sign of ratio:</label>
+                                <select id="p2q5" class="input-field w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none bg-white">
+                                    <option value="">-- Select --</option>
+                                    <option value="positive">Positive</option>
+                                    <option value="negative">Negative</option>
+                                </select>
+                            </div>
+                            <div id="exp15" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                                <strong>Explanation:</strong> Rotating backwards \( -150^\circ \) lands in Quadrant III (coterminal with \( 210^\circ \)). In Quadrant III, only Tangent (T) is positive. Therefore, Sine is negative.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 16 -->
+                <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">16</span>
+                        <div class="w-full">
+                            <p class="text-lg mb-4 text-gray-700">Ray is swinging back and forth in front of a motion detector. The equation of the axis of his motion is <strong>\( y = 9 \) m</strong>, and the amplitude is <strong>5 m</strong>.</p>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">What is the closest distance Ray gets to the motion detector (the minimum value)?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" id="p2q6" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">m</span>
+                                </div>
+                            </div>
+                            <div id="exp16" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                                <strong>Explanation:</strong> Minimum Value = Axis - Amplitude = \( 9 - 5 = 4 \) m.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 17 -->
+                <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">17</span>
+                        <div class="w-full">
+                            <p class="text-lg mb-4 text-gray-700">An oscilloscope hooked up to an AC circuit shows a sine curve with a maximum current of <strong>4.5 amperes</strong> and a minimum current of <strong>-4.5 amperes</strong>.</p>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">What is the amplitude of the function?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" step="0.1" id="p2q7" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">amperes</span>
+                                </div>
+                            </div>
+                            <div id="exp17" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                                <strong>Explanation:</strong> Amplitude = \( \frac{\text{Max} - \text{Min}}{2} = \frac{4.5 - (-4.5)}{2} = \frac{9}{2} = 4.5 \) amperes.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 18 -->
+                <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">18</span>
+                        <div class="w-full">
+                            <p class="text-lg mb-4 text-gray-700">The diameter of a car's tire is <strong>52 cm</strong>. While driven, it picks up a nail. Modeling the height of the nail above the ground as a periodic function, the height will vary between 0 cm and 52 cm.</p>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">What is the amplitude of the nail's height above the ground?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" id="p2q8" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">cm</span>
+                                </div>
+                            </div>
+                            <div id="exp18" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                                <strong>Explanation:</strong> Max = 52 cm, Min = 0 cm. Amplitude = \( \frac{52 - 0}{2} = 26 \) cm.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 19 -->
+                <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">19</span>
+                        <div class="w-full">
+                            <p class="text-lg mb-4 text-gray-700">Bueller rides a Ferris wheel. A graph of his height shows a maximum height of <strong>22 m</strong> and a minimum height of <strong>2 m</strong>.</p>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">What is the diameter of the Ferris wheel?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" id="p2q9" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">m</span>
+                                </div>
+                            </div>
+                            <div id="exp19" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                                <strong>Explanation:</strong> The diameter is the difference between the highest point and the lowest point on the wheel. Diameter = Max - Min = 22 m - 2 m = 20 m.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 20 -->
+                <div class="bg-white shadow rounded-xl p-6 md:p-8 mb-6 border border-gray-100">
+                    <div class="flex items-start gap-4">
+                        <span class="flex-shrink-0 bg-indigo-100 text-primary font-bold rounded-full w-8 h-8 flex items-center justify-center">20</span>
+                        <div class="w-full">
+                            <p class="text-lg mb-4 text-gray-700">Referring again to Bueller's Ferris wheel (maximum height of 22 m and minimum height of 2 m).</p>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                                <label class="font-medium text-gray-700 w-full md:w-1/2">How high above the ground is the central axle of the wheel?</label>
+                                <div class="relative w-full md:w-1/3">
+                                    <input type="number" id="p2q10" class="input-field w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary outline-none">
+                                    <span class="absolute right-3 top-2.5 text-gray-500 text-sm">m</span>
+                                </div>
+                            </div>
+                            <div id="exp20" class="explanation bg-blue-50 rounded-md text-blue-800 text-sm">
+                                <strong>Explanation:</strong> The axle represents the axis of the periodic curve. Equation of Axis = \( \frac{\text{Max} + \text{Min}}{2} = \frac{22 + 2}{2} = 12 \) m.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div> <!-- End of Page 2 -->
+
+            <!-- Score Modal / Result Area -->
+            <div id="result-area" class="hidden mb-6 p-6 rounded-xl border text-center transition-all duration-500">
+                <h2 class="text-2xl font-bold mb-2" id="result-title">Worksheet Complete!</h2>
+                <p class="text-xl" id="result-score">You scored: <span class="font-bold text-indigo-600">0/23</span></p>
+                <p class="text-gray-600 mt-2">Scroll up to review the explanations for each question.</p>
+            </div>
+
+            <!-- Submit Button (Sticky Bottom) -->
+            <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 shadow-lg flex justify-center z-50">
+                <button type="button" onclick="evaluateWorksheet()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-md transition transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-indigo-300 text-lg">
+                    Check Answers
+                </button>
+            </div>
+            
+        </form>
+    </div>
 
     <script>
-        /* ================= NAVIGATION LOGIC ================= */
-        const btnConcepts = document.getElementById('nav-concepts');
-        const btnQuiz = document.getElementById('nav-quiz');
-        const btnHardQuiz = document.getElementById('nav-hard-quiz');
-        const btnMixedQuiz = document.getElementById('nav-mixed-quiz');
-        
-        const pageConcepts = document.getElementById('page-concepts');
-        const pageQuiz = document.getElementById('page-quiz');
-        const quizPageTitle = document.getElementById('quiz-page-title');
-        const quizPageSubtitle = document.getElementById('quiz-page-subtitle');
+        // Tab switching logic
+        let currentPage = 'page1';
 
-        function resetNavStyles() {
-            [btnConcepts, btnQuiz, btnHardQuiz, btnMixedQuiz].forEach(btn => {
-                btn.classList.remove('bg-indigo-800', 'text-white');
-                btn.classList.add('text-indigo-100', 'hover:bg-indigo-700');
-            });
-        }
+        function switchTab(tabId) {
+            currentPage = tabId;
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.add('hidden');
+            document.getElementById(tabId).classList.remove('hidden');
 
-        btnConcepts.addEventListener('click', () => {
-            resetNavStyles();
-            btnConcepts.classList.add('bg-indigo-800', 'text-white');
-            btnConcepts.classList.remove('text-indigo-100', 'hover:bg-indigo-700');
-            
-            pageConcepts.classList.remove('hidden');
-            pageConcepts.classList.add('fade-in');
-            pageQuiz.classList.add('hidden');
-            pageQuiz.classList.remove('fade-in');
-            
-            // Re-draw canvas on concept page display to avoid sizing issues
-            drawGraph();
-        });
+            document.getElementById('tab-page1').className = "whitespace-nowrap py-2 px-6 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium focus:outline-none transition-colors";
+            document.getElementById('tab-page2').className = "whitespace-nowrap py-2 px-6 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium focus:outline-none transition-colors";
 
-        function openQuiz(title, subtitle, quizDataset) {
-            resetNavStyles();
-            pageQuiz.classList.remove('hidden');
-            pageQuiz.classList.add('fade-in');
-            pageConcepts.classList.add('hidden');
-            pageConcepts.classList.remove('fade-in');
+            document.getElementById('tab-' + tabId).className = "whitespace-nowrap py-2 px-6 border-b-2 border-indigo-600 font-bold text-indigo-600 focus:outline-none transition-colors";
+
+            document.getElementById('result-area').classList.add('hidden');
             
-            quizPageTitle.innerText = title;
-            quizPageSubtitle.innerText = subtitle;
-            activeQuizData = quizDataset;
-            restartBtn.click();
-            
-            if (window.MathJax && window.MathJax.typesetPromise) {
+            // Re-render math on unhidden tab
+            if (window.MathJax) {
                 MathJax.typesetPromise();
             }
         }
 
-        btnQuiz.addEventListener('click', () => {
-            btnQuiz.classList.add('bg-indigo-800', 'text-white');
-            btnQuiz.classList.remove('text-indigo-100', 'hover:bg-indigo-700');
-            openQuiz("Lesson 2 Quiz", "Test your knowledge of the Unit Circle and Parent Graphs!", standardQuizData);
-        });
-
-        btnHardQuiz.addEventListener('click', () => {
-            btnHardQuiz.classList.add('bg-indigo-800', 'text-white');
-            btnHardQuiz.classList.remove('text-indigo-100', 'hover:bg-indigo-700');
-            openQuiz("Challenge Quiz", "Tackle these harder questions to master the concepts!", hardQuizData);
-        });
-
-        btnMixedQuiz.addEventListener('click', () => {
-            btnMixedQuiz.classList.add('bg-indigo-800', 'text-white');
-            btnMixedQuiz.classList.remove('text-indigo-100', 'hover:bg-indigo-700');
-            openQuiz("Lesson 1 & 3 Quiz", "Test your knowledge on Periodic Phenomena and Transformations!", mixedQuizData);
-        });
-
-        /* ================= INTERACTIVE CANVAS GRAPH LOGIC ================= */
-        const canvas = document.getElementById('trigCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        // UI Controls
-        const toggleSin = document.getElementById('toggle-sin');
-        const toggleCos = document.getElementById('toggle-cos');
-        const toggleTan = document.getElementById('toggle-tan');
-        const sliderAmp = document.getElementById('slider-amp');
-        const sliderFreq = document.getElementById('slider-freq');
-        const valAmp = document.getElementById('val-amp');
-        const valFreq = document.getElementById('val-freq');
-
-        function resizeCanvas() {
-            // Make canvas internal resolution match container dimensions for sharp lines
-            canvas.width = canvas.parentElement.clientWidth;
-            canvas.height = canvas.parentElement.clientHeight;
-            drawGraph();
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-
-        function drawGraph() {
-            if (!ctx) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            const w = canvas.width;
-            const h = canvas.height;
-            const originX = w / 2;
-            const originY = h / 2;
-
-            // X-axis maps from -360 deg to +360 deg
-            const rangeX = 720; 
-            const scaleX = w / rangeX; 
-            
-            // Y-axis maps roughly from -4 to 4
-            const rangeY = 8;
-            const scaleY = h / rangeY;
-
-            // Draw Grid
-            ctx.beginPath();
-            ctx.strokeStyle = '#e2e8f0'; // slate-200
-            ctx.lineWidth = 1;
-            // Vertical grid lines every 90 degrees
-            for (let deg = -360; deg <= 360; deg += 90) {
-                let px = originX + (deg * scaleX);
-                ctx.moveTo(px, 0); ctx.lineTo(px, h);
+        // Define correct answers per page
+        const correctAnswers = {
+            'page1': {
+                'q1a': '-3',
+                'q1b': '2',
+                'q1c': '8',
+                'q2a': '1.8',
+                'q2b': '4',
+                'q3a': '12h20m',
+                'q3b': '1.3',
+                'q4a': '3',
+                'q4b': '150',
+                'q5a': 'not_periodic',
+                'q5b': 'periodic',
+                'q5c': 'periodic',
+                'q6a': '12.5',
+                'q6b': '5.5',
+                'q6c': '6.5',
+                'q7a': '8',
+                'q7b': '6',
+                'q7c': '4',
+                'q8a': 'not_periodic',
+                'q8b': 'periodic',
+                'q8c': 'not_periodic',
+                'q9': 'cannot_predict',
+                'q10': '01:00'
+            },
+            'page2': {
+                'p2q1': '1',
+                'p2q2': '360',
+                'p2q3': '180',
+                'p2q4': 'negative',
+                'p2q5': 'negative',
+                'p2q6': '4',
+                'p2q7': '4.5',
+                'p2q8': '26',
+                'p2q9': '20',
+                'p2q10': '12'
             }
-            // Horizontal grid lines every 1 unit
-            for (let unit = -4; unit <= 4; unit++) {
-                let py = originY - (unit * scaleY);
-                ctx.moveTo(0, py); ctx.lineTo(w, py);
-            }
-            ctx.stroke();
+        };
 
-            // Draw Main Axes
-            ctx.beginPath();
-            ctx.strokeStyle = '#94a3b8'; // slate-400
-            ctx.lineWidth = 2;
-            ctx.moveTo(0, originY); ctx.lineTo(w, originY); // X axis
-            ctx.moveTo(originX, 0); ctx.lineTo(originX, h); // Y axis
-            ctx.stroke();
+        function evaluateWorksheet() {
+            let score = 0;
+            const pageAnswers = correctAnswers[currentPage];
+            const totalQuestions = Object.keys(pageAnswers).length;
 
-            // Values from sliders
-            const a = parseFloat(sliderAmp.value);
-            const k = parseFloat(sliderFreq.value);
-
-            // Graph Drawing Helper
-            function plotFunction(fn, color, isTan = false) {
-                ctx.beginPath();
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 2.5;
-                ctx.lineJoin = 'round';
+            for (const [id, correctVal] of Object.entries(pageAnswers)) {
+                const el = document.getElementById(id);
+                if(!el) continue;
                 
-                let prevPy = null;
-
-                for(let px = 0; px <= w; px++) {
-                    // Convert pixel x back to degrees, then to radians
-                    const deg = (px - originX) / scaleX;
-                    const rad = deg * (Math.PI / 180);
-                    
-                    // Apply transformations: y = a * fn(k * x)
-                    let yVal = a * fn(k * rad);
-                    
-                    const py = originY - (yVal * scaleY);
-
-                    // Handle tangent asymptotes to prevent vertical line drawing
-                    if (isTan) {
-                        if (prevPy !== null && Math.abs(py - prevPy) > h/2) {
-                            ctx.stroke(); // Break the line
-                            ctx.beginPath();
-                            ctx.moveTo(px, py);
-                        } else {
-                            if (px === 0) ctx.moveTo(px, py);
-                            else ctx.lineTo(px, py);
-                        }
-                    } else {
-                        if (px === 0) ctx.moveTo(px, py);
-                        else ctx.lineTo(px, py);
-                    }
-                    prevPy = py;
+                let userVal = el.value.trim().toLowerCase();
+                let isCorrect = false;
+                
+                if (!isNaN(correctVal) && correctVal !== "" && !correctVal.includes(':') && !isNaN(userVal) && userVal !== "") {
+                    isCorrect = parseFloat(userVal) === parseFloat(correctVal);
+                } else {
+                    isCorrect = (userVal === correctVal);
                 }
-                ctx.stroke();
+
+                el.classList.remove('correct-input', 'incorrect-input');
+
+                if (isCorrect) {
+                    el.classList.add('correct-input');
+                    score++;
+                } else {
+                    el.classList.add('incorrect-input');
+                }
             }
 
-            // Draw toggled functions
-            if (toggleSin.checked) plotFunction(Math.sin, '#3b82f6'); // blue-500
-            if (toggleCos.checked) plotFunction(Math.cos, '#14b8a6'); // teal-500
-            if (toggleTan.checked) plotFunction(Math.tan, '#a855f7', true); // purple-500
-        }
-
-        // Add event listeners to controls
-        [toggleSin, toggleCos, toggleTan].forEach(cb => cb.addEventListener('change', drawGraph));
-        
-        sliderAmp.addEventListener('input', (e) => {
-            valAmp.innerText = parseFloat(e.target.value).toFixed(1);
-            drawGraph();
-        });
-        
-        sliderFreq.addEventListener('input', (e) => {
-            valFreq.innerText = parseFloat(e.target.value).toFixed(1);
-            drawGraph();
-        });
-
-
-        /* ================= QUIZ LOGIC & DATA ================= */
-        const standardQuizData = [
-            {
-                question: "On the unit circle, what does the y-coordinate of a point $(x, y)$ represent?",
-                options: ["$\\cos \\theta$", "$\\sin \\theta$", "$\\tan \\theta$", "The radius of the circle"],
-                correct: 1,
-                explanation: "On a unit circle where the radius $r = 1$, the ratio $\\sin \\theta = \\frac{y}{r}$ simplifies to just $\\sin \\theta = y$."
-            },
-            {
-                question: "What is the amplitude of the parent cosine function, $y = \\cos \\theta$?",
-                options: ["0", "1", "360°", "Undefined"],
-                correct: 1,
-                explanation: "The parent cosine graph oscillates between a maximum of 1 and a minimum of -1, so its amplitude is exactly 1."
-            },
-            {
-                question: "According to the CAST rule, in which quadrant(s) is the cosine ratio positive?",
-                options: ["Quadrant I only", "Quadrants II and III", "Quadrants I and IV", "Quadrants III and IV"],
-                correct: 2,
-                explanation: "Using CAST (Quad IV = C, Quad I = A): Cosine is positive in Quadrant IV, and ALL ratios are positive in Quadrant I."
-            },
-            {
-                question: "What is the period of the parent tangent function, $y = \\tan \\theta$?",
-                options: ["90°", "180°", "270°", "360°"],
-                correct: 1,
-                explanation: "Unlike sine and cosine, which have a period of 360°, the tangent function completes a full cycle of its pattern every 180°."
-            },
-            {
-                question: "Which of the following describes the graph of $y = \\sin \\theta$?",
-                options: ["Starts at its maximum peak of 1 at 0°.", "Consists of curves separated by vertical asymptotes.", "Starts at the origin (0,0) and heads upwards to a maximum of 1.", "Starts at (0, -1) and heads upwards."],
-                correct: 2,
-                explanation: "The parent sine graph always starts at the origin $(0°, 0)$ and immediately rises to its peak at $90°$."
-            },
-            {
-                question: "Which of the primary trigonometric functions has vertical asymptotes?",
-                options: ["Sine", "Cosine", "Tangent", "None of them"],
-                correct: 2,
-                explanation: "Tangent is equal to $\\frac{\\sin \\theta}{\\cos \\theta}$. Whenever $\\cos \\theta = 0$ (like at 90° and 270°), you are dividing by zero, creating a vertical asymptote."
-            },
-            {
-                question: "At which angles does the parent graph $y = \\cos \\theta$ reach its maximum value of 1 (within one positive cycle 0° to 360°)?",
-                options: ["90° and 270°", "180° only", "0° and 180°", "0° and 360°"],
-                correct: 3,
-                explanation: "The cosine graph starts at its peak at 0°, dips down to its minimum at 180°, and returns to its peak at 360°."
-            },
-            {
-                question: "If an angle terminates in Quadrant II, what are the signs of its primary trig ratios?",
-                options: ["Sine (+), Cosine (+), Tangent (+)", "Sine (+), Cosine (-), Tangent (-)", "Sine (-), Cosine (+), Tangent (-)", "Sine (-), Cosine (-), Tangent (+)"],
-                correct: 1,
-                explanation: "The 'S' in CAST stands for Quadrant II, meaning ONLY Sine is positive. Therefore, Cosine and Tangent are negative."
-            },
-            {
-                question: "What are the coordinates $(x, y)$ on the Unit Circle for an angle of 90°?",
-                options: ["(1, 0)", "(0, 1)", "(-1, 0)", "(0, -1)"],
-                correct: 1,
-                explanation: "At 90°, the point is straight up on the y-axis. The distance is the radius (1), so the coordinates are (0, 1). This means $\\cos 90° = 0$ and $\\sin 90° = 1$."
-            },
-            {
-                question: "What are the zeros (x-intercepts) of the parent function $y = \\sin \\theta$ between 0° and 360° inclusive?",
-                options: ["90° and 270°", "0°, 180°, and 360°", "180° only", "0° and 360° only"],
-                correct: 1,
-                explanation: "The sine wave starts on the axis at 0°, crosses the axis exactly halfway through its cycle at 180°, and finishes on the axis at 360°."
+            // Show explanations for the current page
+            const expStart = currentPage === 'page1' ? 1 : 11;
+            const expEnd = currentPage === 'page1' ? 10 : 20;
+            for(let i = expStart; i <= expEnd; i++) {
+                const expEl = document.getElementById('exp' + i);
+                if(expEl) expEl.classList.add('show');
             }
-        ];
 
-        const hardQuizData = [
-            {
-                question: "If $\\sin \\theta = -0.6$ and $\\cos \\theta > 0$, in which quadrant does the terminal side of $\\theta$ lie?",
-                options: ["Quadrant I", "Quadrant II", "Quadrant III", "Quadrant IV"],
-                correct: 3,
-                explanation: "Using the CAST rule, Sine is negative in Quads III and IV, while Cosine is positive in Quads I and IV. Both conditions are only met in Quadrant IV."
-            },
-            {
-                question: "What is the exact value of $\\tan 90^\\circ$?",
-                options: ["0", "1", "-1", "Undefined"],
-                correct: 3,
-                explanation: "$\\tan \\theta = \\frac{\\sin \\theta}{\\cos \\theta}$. At $90^\\circ$, $\\sin 90^\\circ = 1$ and $\\cos 90^\\circ = 0$. Dividing by zero is undefined, which is why the tangent graph has a vertical asymptote at $90^\\circ$."
-            },
-            {
-                question: "How many times do the graphs of $y = \\cos \\theta$ and $y = \\sin \\theta$ intersect in the interval $0^\\circ \\le \\theta < 360^\\circ$?",
-                options: ["0 times", "1 time", "2 times", "4 times"],
-                correct: 2,
-                explanation: "They intersect twice: once in Quadrant I at $45^\\circ$ (where both are $\\approx 0.707$) and once in Quadrant III at $225^\\circ$ (where both are $\\approx -0.707$)."
-            },
-            {
-                question: "If $\\tan \\theta = 1$ and $\\sin \\theta < 0$, what is the value of $\\theta$ between $0^\\circ$ and $360^\\circ$?",
-                options: ["$45^\\circ$", "$135^\\circ$", "$225^\\circ$", "$315^\\circ$"],
-                correct: 2,
-                explanation: "Tangent is positive in Quads I and III. Sine is negative in Quads III and IV. The overlapping quadrant is III. The angle in Quad III with a reference angle of $45^\\circ$ is $180^\\circ + 45^\\circ = 225^\\circ$."
-            },
-            {
-                question: "As $\\theta$ approaches $90^\\circ$ from values less than $90^\\circ$ (e.g., $89^\\circ, 89.9^\\circ$), what happens to the value of $\\tan \\theta$?",
-                options: ["It approaches 0", "It approaches 1", "It approaches positive infinity", "It approaches negative infinity"],
-                correct: 2,
-                explanation: "As you get closer to $90^\\circ$ from the left side, $\\sin \\theta$ is close to 1 and $\\cos \\theta$ gets closer and closer to a tiny positive number. Dividing by a tiny positive number results in a massive positive number (positive infinity)."
-            },
-            {
-                question: "A point $P(x, y)$ lies on the unit circle corresponding to an angle $\\theta$. If $x = -\\frac{\\sqrt{3}}{2}$ and $y = \\frac{1}{2}$, what is the value of $\\tan \\theta$?",
-                options: ["$-\\sqrt{3}$", "$-\\frac{1}{\\sqrt{3}}$", "$\\frac{1}{\\sqrt{3}}$", "$\\sqrt{3}$"],
-                correct: 1,
-                explanation: "On the unit circle, $\\tan \\theta = \\frac{y}{x}$. So, $\\tan \\theta = \\frac{1/2}{-\\sqrt{3}/2} = -\\frac{1}{\\sqrt{3}}$."
-            },
-            {
-                question: "Which of the following equations represents the fundamental trigonometric identity derived from the unit circle equation $x^2 + y^2 = 1$?",
-                options: ["$\\sin \\theta + \\cos \\theta = 1$", "$\\tan^2 \\theta + 1 = \\sec^2 \\theta$", "$\\sin^2 \\theta + \\cos^2 \\theta = 1$", "$\\sin \\theta \\cdot \\cos \\theta = 1$"],
-                correct: 2,
-                explanation: "Since $x = \\cos \\theta$ and $y = \\sin \\theta$ on the unit circle, substituting these into $x^2 + y^2 = 1$ yields the Pythagorean identity $\\cos^2 \\theta + \\sin^2 \\theta = 1$."
-            },
-            {
-                question: "For which angle $\\theta$ in the interval $0^\\circ \\le \\theta \\le 360^\\circ$ is it true that $\\sin \\theta = -\\cos \\theta$?",
-                options: ["$45^\\circ$ and $225^\\circ$", "$135^\\circ$ and $315^\\circ$", "$90^\\circ$ and $270^\\circ$", "$180^\\circ$ and $360^\\circ$"],
-                correct: 1,
-                explanation: "$\\sin \\theta = -\\cos \\theta$ means $\\frac{\\sin \\theta}{\\cos \\theta} = -1$, which means $\\tan \\theta = -1$. Tangent is -1 at $135^\\circ$ (Quad II) and $315^\\circ$ (Quad IV)."
-            },
-            {
-                question: "What is the range of the parent function $y = \\tan \\theta$?",
-                options: ["$-1 \\le y \\le 1$", "$0 \\le y \\le 360^\\circ$", "$y \\ne 90^\\circ + 180^\\circ k$", "All real numbers ($\\mathbb{R}$)"],
-                correct: 3,
-                explanation: "While the domain of tangent is restricted by vertical asymptotes, its range extends from negative infinity to positive infinity, covering all real numbers."
-            },
-            {
-                question: "Which of the following describes the symmetry of the parent sine and cosine graphs?",
-                options: ["Sine is symmetrical about the y-axis; Cosine has rotational symmetry about the origin.", "Cosine is symmetrical about the y-axis; Sine has rotational symmetry about the origin.", "Both are symmetrical about the y-axis.", "Neither graph possesses symmetry."],
-                correct: 1,
-                explanation: "Cosine is an even function, meaning it reflects perfectly across the y-axis ($y = \\cos \\theta$ is the same for positive and negative $\\theta$). Sine is an odd function, meaning it has $180^\\circ$ rotational symmetry about the origin."
-            }
-        ];
+            // Show Result Area
+            const resultArea = document.getElementById('result-area');
+            const resultTitle = document.getElementById('result-title');
+            const resultScore = document.getElementById('result-score');
+            
+            resultArea.classList.remove('hidden');
+            resultScore.innerHTML = `You scored: <span class="font-bold text-indigo-600">${score} / ${totalQuestions}</span> on this part.`;
 
-        const mixedQuizData = [
-            {
-                question: "A periodic function has a maximum value of $15$ and a minimum value of $3$. What is the equation of the axis of the curve?",
-                options: ["$y = 6$", "$y = 9$", "$y = 12$", "$y = 18$"],
-                correct: 1,
-                explanation: "The axis of the curve is calculated using $\\frac{\\text{max} + \\text{min}}{2}$. Therefore, $\\frac{15 + 3}{2} = \\frac{18}{2} = 9$."
-            },
-            {
-                question: "In the transformation equation $y = a \\sin[k(x - d)] + c$, which parameter represents the vertical shift?",
-                options: ["$a$", "$k$", "$d$", "$c$"],
-                correct: 3,
-                explanation: "The parameter $c$ represents the vertical shift (up or down) and it defines the location of the axis of the curve."
-            },
-            {
-                question: "What is the amplitude of the function $y = -4 \\cos[2(x - 30^\\circ)] + 5$?",
-                options: ["$-4$", "$4$", "$2$", "$5$"],
-                correct: 1,
-                explanation: "The amplitude is the absolute value of $a$. Since $a = -4$, the amplitude is $|-4| = 4$. The negative sign indicates a vertical reflection."
-            },
-            {
-                question: "If a function has a $k$-value of $3$, what is the period of the transformed sine function?",
-                options: ["$3^\\circ$", "$120^\\circ$", "$180^\\circ$", "$1080^\\circ$"],
-                correct: 1,
-                explanation: "The period is calculated using the formula $\\text{Period} = \\frac{360^\\circ}{|k|}$. Therefore, $\\frac{360^\\circ}{3} = 120^\\circ$."
-            },
-            {
-                question: "A Ferris wheel has a diameter of $40\\text{ m}$ and its axle is $22\\text{ m}$ above the ground. What is the amplitude of a rider's vertical position?",
-                options: ["$20\\text{ m}$", "$22\\text{ m}$", "$40\\text{ m}$", "$42\\text{ m}$"],
-                correct: 0,
-                explanation: "The amplitude represents the radius of the Ferris wheel. Since the diameter is $40\\text{ m}$, the amplitude is $\\frac{40}{2} = 20\\text{ m}$."
-            },
-            {
-                question: "In the function $y = 2 \\sin(x + 45^\\circ) - 1$, what is the phase shift?",
-                options: ["$45^\\circ$ right", "$45^\\circ$ left", "$1^\\circ$ down", "$2^\\circ$ left"],
-                correct: 1,
-                explanation: "The term $(x + 45^\\circ)$ can be written as $(x - (-45^\\circ))$. This indicates a phase shift of $45^\\circ$ to the left."
-            },
-            {
-                question: "Which of the following represents a periodic phenomenon?",
-                options: ["A ball dropped from a height that bounces lower each time.", "The distance a car travels at a constant speed over time.", "The changing phases of the moon observed over several months.", "The balance of a bank account growing with compound interest."],
-                correct: 2,
-                explanation: "The phases of the moon repeat in identical, self-repeating cycles over a regular period (about 29.5 days), making it periodic."
-            },
-            {
-                question: "A cosine graph has a period of $90^\\circ$. What is the value of $k$ in its equation?",
-                options: ["$0.25$", "$2$", "$4$", "$90$"],
-                correct: 2,
-                explanation: "Using the formula $k = \\frac{360^\\circ}{\\text{Period}}$, we get $k = \\frac{360^\\circ}{90^\\circ} = 4$."
-            },
-            {
-                question: "If the parent function $y = \\sin \\theta$ is vertically stretched by a factor of 3 and translated 2 units up, what is the new equation?",
-                options: ["$y = \\sin(3\\theta) + 2$", "$y = 3 \\sin(\\theta + 2)$", "$y = 3 \\sin \\theta + 2$", "$y = 2 \\sin \\theta + 3$"],
-                correct: 2,
-                explanation: "A vertical stretch of 3 means $a = 3$, and a translation 2 units up means $c = 2$. Thus, $y = 3 \\sin \\theta + 2$."
-            },
-            {
-                question: "You are given a graph of a sinusoidal wave with a maximum at $y = 8$ and a minimum at $y = -2$. The closest maximum to the y-axis occurs at $x = 30^\\circ$. What is a possible cosine equation if the period is $360^\\circ$?",
-                options: ["$y = 5 \\cos(x - 30^\\circ) + 3$", "$y = 10 \\cos(x - 30^\\circ) + 6$", "$y = 5 \\cos(x + 30^\\circ) + 3$", "$y = 5 \\cos(x - 30^\\circ) - 2$"],
-                correct: 0,
-                explanation: "Amplitude $a = \\frac{8 - (-2)}{2} = 5$. Axis $c = \\frac{8 + (-2)}{2} = 3$. The period is $360^\\circ$ so $k = 1$. The closest peak is at $30^\\circ$ right, so $d = 30^\\circ$. Equation: $y = 5 \\cos(x - 30^\\circ) + 3$."
-            }
-        ];
-
-        let activeQuizData = standardQuizData;
-        let currentQuestion = 0;
-        let score = 0;
-        let selectedOption = null;
-
-        const questionHeader = document.getElementById('question-header');
-        const questionText = document.getElementById('question-text');
-        const optionsContainer = document.getElementById('options-container');
-        const submitBtn = document.getElementById('submit-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const feedbackContainer = document.getElementById('feedback-container');
-        const feedbackTitle = document.getElementById('feedback-title');
-        const feedbackText = document.getElementById('feedback-text');
-        const progressBar = document.getElementById('progress-bar');
-        const quizContainer = document.getElementById('quiz-container');
-        const resultsContainer = document.getElementById('results-container');
-        const scoreText = document.getElementById('score-text');
-        const scoreMessage = document.getElementById('score-message');
-        const restartBtn = document.getElementById('restart-btn');
-
-        function loadQuestion() {
-            selectedOption = null;
-            submitBtn.classList.add('hidden');
-            submitBtn.disabled = true;
-            nextBtn.classList.add('hidden');
-            feedbackContainer.classList.add('hidden');
-            
-            const q = activeQuizData[currentQuestion];
-            questionHeader.innerText = `Question ${currentQuestion + 1} of ${activeQuizData.length}`;
-            questionText.innerHTML = q.question;
-            
-            optionsContainer.innerHTML = '';
-            q.options.forEach((opt, index) => {
-                const optDiv = document.createElement('div');
-                optDiv.className = 'border-2 border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors option-label flex items-center group';
-                optDiv.innerHTML = `
-                    <div class="w-6 h-6 rounded-full border-2 border-gray-300 mr-4 flex items-center justify-center group-hover:border-indigo-500 transition-colors option-circle" id="circle-${index}">
-                        <div class="w-3 h-3 rounded-full bg-indigo-500 hidden inner-dot" id="dot-${index}"></div>
-                    </div>
-                    <span class="text-gray-700">${opt}</span>
-                `;
-                optDiv.onclick = () => selectOption(index, optDiv);
-                optionsContainer.appendChild(optDiv);
-            });
-
-            updateProgress();
-            
-            // Re-render math formatting if needed
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                MathJax.typesetPromise();
-            }
-        }
-
-        function selectOption(index, element) {
-            if (!submitBtn.classList.contains('hidden') && submitBtn.disabled === false) return; // Prevent changing after submit
-            if (!nextBtn.classList.contains('hidden')) return; // Prevent changing when showing answer
-            
-            selectedOption = index;
-            
-            // Reset all styling
-            document.querySelectorAll('.option-label').forEach(el => {
-                el.classList.remove('border-indigo-500', 'bg-indigo-50');
-                el.querySelector('.option-circle').classList.remove('border-indigo-500');
-                el.querySelector('.inner-dot').classList.add('hidden');
-            });
-            
-            // Add active styling
-            element.classList.add('border-indigo-500', 'bg-indigo-50');
-            element.querySelector('.option-circle').classList.add('border-indigo-500');
-            element.querySelector('.inner-dot').classList.remove('hidden');
-            
-            submitBtn.classList.remove('hidden');
-            submitBtn.disabled = false;
-        }
-
-        submitBtn.onclick = () => {
-            const q = activeQuizData[currentQuestion];
-            const options = document.querySelectorAll('.option-label');
-            
-            options.forEach(opt => opt.onclick = null); // disable clicks
-            submitBtn.classList.add('hidden');
-            nextBtn.classList.remove('hidden');
-            
-            const isCorrect = selectedOption === q.correct;
-            if (isCorrect) score++;
-
-            // Highlight Correct/Incorrect
-            options[selectedOption].classList.remove('border-indigo-500', 'bg-indigo-50');
-            
-            if (isCorrect) {
-                options[selectedOption].classList.add('border-green-500', 'bg-green-50');
-                feedbackContainer.className = 'mt-6 p-4 rounded-lg bg-green-50 border border-green-200 fade-in';
-                feedbackTitle.className = 'font-bold text-lg mb-1 text-green-700';
-                feedbackTitle.innerText = '✅ Correct!';
+            if(score === totalQuestions) {
+                resultArea.className = "mb-6 p-6 rounded-xl border text-center transition-all duration-500 bg-green-50 border-green-200 text-green-800";
+                resultTitle.innerText = "Excellent Work! 🌟";
+            } else if (score >= totalQuestions / 2) {
+                resultArea.className = "mb-6 p-6 rounded-xl border text-center transition-all duration-500 bg-blue-50 border-blue-200 text-blue-800";
+                resultTitle.innerText = "Good Job! 👍";
             } else {
-                options[selectedOption].classList.add('border-red-500', 'bg-red-50');
-                options[q.correct].classList.add('border-green-500', 'bg-green-50'); // Show correct answer
-                feedbackContainer.className = 'mt-6 p-4 rounded-lg bg-red-50 border border-red-200 fade-in';
-                feedbackTitle.className = 'font-bold text-lg mb-1 text-red-700';
-                feedbackTitle.innerText = '❌ Incorrect';
+                resultArea.className = "mb-6 p-6 rounded-xl border text-center transition-all duration-500 bg-orange-50 border-orange-200 text-orange-800";
+                resultTitle.innerText = "Keep Practicing! 📚";
             }
-            
-            feedbackText.innerHTML = q.explanation;
-            feedbackContainer.classList.remove('hidden');
-            
-            if (window.MathJax && window.MathJax.typesetPromise) {
-                MathJax.typesetPromise();
-            }
-        };
 
-        nextBtn.onclick = () => {
-            currentQuestion++;
-            if (currentQuestion < activeQuizData.length) {
-                quizContainer.classList.remove('fade-in');
-                void quizContainer.offsetWidth; // trigger reflow
-                quizContainer.classList.add('fade-in');
-                loadQuestion();
-            } else {
-                showResults();
-            }
-        };
-
-        function updateProgress() {
-            const percentage = (currentQuestion / activeQuizData.length) * 100;
-            progressBar.style.width = `${percentage}%`;
+            resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-
-        function showResults() {
-            quizContainer.classList.add('hidden');
-            progressBar.style.width = '100%';
-            resultsContainer.classList.remove('hidden');
-            resultsContainer.classList.add('fade-in');
-            
-            scoreText.innerText = `${score} / ${activeQuizData.length}`;
-            
-            if (score === activeQuizData.length) {
-                scoreMessage.innerText = "Perfect! You've mastered these concepts.";
-            } else if (score >= 7) {
-                scoreMessage.innerText = "Great job! You have a solid grasp of these concepts.";
-            } else {
-                scoreMessage.innerText = "Good effort! Review the Concepts page and try the quiz again.";
-            }
-        }
-
-        restartBtn.onclick = () => {
-            currentQuestion = 0;
-            score = 0;
-            resultsContainer.classList.add('hidden');
-            quizContainer.classList.remove('hidden');
-            loadQuestion();
-        };
-
-        // Initialize display
-        setTimeout(resizeCanvas, 100); // allow container to render before resizing canvas
-        loadQuestion();
     </script>
 </body>
 </html>
