@@ -34,7 +34,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
         }
 
@@ -78,13 +78,10 @@
             border-left: 4px solid var(--primary);
         }
 
-        .difficulty-section {
-            margin-bottom: 3rem;
-        }
-
         .section-title {
             font-size: 1.5rem;
             margin-bottom: 1rem;
+            margin-top: 2rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--border);
             color: var(--text);
@@ -95,11 +92,12 @@
             padding: 1.5rem;
             border-radius: 8px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             display: flex;
             flex-direction: column;
             gap: 1rem;
             transition: all 0.2s ease;
+            border: 2px solid transparent;
         }
 
         .q-header {
@@ -119,75 +117,79 @@
             font-size: 1.05rem;
         }
 
-        .input-group {
+        .input-area {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         input[type="text"] {
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 1rem;
             border: 2px solid var(--border);
             border-radius: 6px;
             font-size: 1rem;
-            width: 200px;
+            width: 180px;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
         }
 
-        input[type="text"]:focus {
-            border-color: var(--primary);
+        .check-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
         }
 
-        .feedback {
-            font-weight: 500;
-            display: none;
+        .check-btn:hover {
+            background: var(--primary-hover);
         }
 
-        .correct-ans-reveal {
-            font-size: 0.9rem;
+        .check-btn:disabled {
+            background: var(--border);
+            cursor: not-allowed;
             color: var(--text-light);
-            margin-top: 0.5rem;
+        }
+
+        .try-counter {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .feedback-msg {
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .reveal-box {
             display: none;
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background: #F3F4F6;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--text-light);
         }
 
         /* States */
-        .is-correct input {
-            border-color: var(--success);
-            background-color: var(--success-bg);
-            color: #065F46;
-        }
-        .is-correct .feedback {
-            display: block;
-            color: var(--success);
-        }
-        
-        .is-incorrect input {
-            border-color: var(--danger);
-            background-color: var(--danger-bg);
-            color: #991B1B;
-        }
-        .is-incorrect .feedback {
-            display: block;
-            color: var(--danger);
-        }
-        .is-incorrect .correct-ans-reveal {
-            display: block;
-        }
+        .is-correct { border-color: var(--success); }
+        .is-correct input { border-color: var(--success); background-color: var(--success-bg); pointer-events: none; }
+        .is-correct .feedback-msg { color: var(--success); }
+
+        .is-incorrect { border-color: var(--danger); }
+        .is-incorrect input { border-color: var(--danger); background-color: var(--danger-bg); }
+        .is-incorrect .feedback-msg { color: var(--danger); }
 
         @media (max-width: 600px) {
-            .score-tracker {
-                position: static;
-                display: inline-block;
-                margin-top: 1rem;
-            }
-            .input-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            input[type="text"] {
-                width: 100%;
-            }
+            .score-tracker { position: static; display: inline-block; margin-top: 1rem; }
+            .input-area { flex-direction: column; align-items: flex-start; }
+            input[type="text"] { width: 100%; }
+            .check-btn { width: 100%; }
         }
     </style>
 </head>
@@ -197,70 +199,69 @@
     <header>
         <div class="score-tracker" id="scoreTracker">Score: 0 / 30</div>
         <h1>Arcs & Sectors Assessment</h1>
-        <p>Focus: Using radian formulas to find arc length and sector area.</p>
+        <p>Topic: Radian Formulas ($s = r\theta$, $A = \frac{1}{2}r^2\theta$)</p>
         <div class="instructions">
-            <strong>Instructions:</strong>
+            <strong>Interactive Mode:</strong>
             <ul>
-                <li>Answer all 30 questions. The difficulty increases as you progress.</li>
-                <li>You may enter exact expressions using <code>pi</code> (e.g., <code>15*pi/4</code>) OR round your decimals to 2 decimal places (e.g., <code>11.78</code>).</li>
-                <li>Assume Arc Length $s = r\theta$ and Sector Area $A = \frac{1}{2}r^2\theta$, where $\theta$ is in radians.</li>
-                <li><strong>Instant Grading is ON:</strong> Type your answer and click away or press Enter to grade it instantly.</li>
+                <li>Enter your answer and click <strong>Check</strong> for each question.</li>
+                <li>You have <strong>3 attempts</strong> per question before the answer is revealed.</li>
+                <li>Accepted formats: Decimals (e.g., <code>11.78</code>) or expressions (e.g., <code>15*pi/4</code>).</li>
             </ul>
         </div>
     </header>
 
-    <div id="quiz-container">
-        <!-- Questions injected via JS -->
-    </div>
+    <div id="quiz-container"></div>
 </div>
 
 <script>
-    // Database of questions
     const questions = [
-        // EASY
-        { id: 1, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 13 in and &theta; = &pi;/6 rad.", ans: 6.807, hint: "13*pi/6" },
-        { id: 2, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 16 ft and &theta; = 3&pi;/2 rad.", ans: 75.398, hint: "24*pi" },
-        { id: 3, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 9 ft and &theta; = 7&pi;/4 rad.", ans: 49.48, hint: "63*pi/4" },
-        { id: 4, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 14 cm and &theta; = &pi;/2 rad.", ans: 21.99, hint: "7*pi" },
-        { id: 5, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 4 cm and &theta; = 3&pi;/2 rad.", ans: 37.699, hint: "12*pi" },
-        { id: 6, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 10 mi and &theta; = &pi;/2 rad.", ans: 78.54, hint: "25*pi" },
-        { id: 7, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 12 yd and &theta; = 5&pi;/3 rad.", ans: 376.99, hint: "120*pi" },
-        { id: 8, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 14 yd and &theta; = 17&pi;/12 rad.", ans: 436.16, hint: "119*pi/6" },
+        // Section: Easy
+        { id: 1, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 13 in and &theta; = &pi;/6 rad.", ans: 6.807, hint: "13&pi;/6" },
+        { id: 2, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 16 ft and &theta; = 3&pi;/2 rad.", ans: 75.398, hint: "24&pi;" },
+        { id: 3, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 9 ft and &theta; = 7&pi;/4 rad.", ans: 49.48, hint: "63&pi;/4" },
+        { id: 4, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 14 cm and &theta; = &pi;/2 rad.", ans: 21.99, hint: "7&pi;" },
+        { id: 5, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 4 cm and &theta; = 3&pi;/2 rad.", ans: 37.699, hint: "12&pi;" },
+        { id: 6, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 10 mi and &theta; = &pi;/2 rad.", ans: 78.54, hint: "25&pi;" },
+        { id: 7, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 12 yd and &theta; = 5&pi;/3 rad.", ans: 376.99, hint: "120&pi;" },
+        { id: 8, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 14 yd and &theta; = 17&pi;/12 rad.", ans: 436.16, hint: "119&pi;/6" },
         { id: 9, level: "Easy (Direct Formulas)", text: "Find the central angle &theta; (in radians) given arc length s = 15 cm and r = 10 cm.", ans: 1.5, hint: "1.5" },
         { id: 10, level: "Easy (Direct Formulas)", text: "Find the central angle &theta; (in radians) given sector area A = 20 cm&sup2; and r = 8 cm.", ans: 0.625, hint: "0.625" },
 
-        // MEDIUM
-        { id: 11, level: "Medium (Conversions & Multi-Step)", text: "Find the arc length given r = 11 ft and &theta; = 315&deg;.", ans: 60.476, hint: "77*pi/4" },
-        { id: 12, level: "Medium (Conversions & Multi-Step)", text: "Find the arc length given r = 13 ft and &theta; = 270&deg;.", ans: 61.26, hint: "39*pi/2" },
-        { id: 13, level: "Medium (Conversions & Multi-Step)", text: "Find the arc length given r = 18 cm and &theta; = 60&deg;.", ans: 18.85, hint: "6*pi" },
-        { id: 14, level: "Medium (Conversions & Multi-Step)", text: "Find the area of the sector given r = 10 in and &theta; = 60&deg;.", ans: 52.36, hint: "50*pi/3" },
-        { id: 15, level: "Medium (Conversions & Multi-Step)", text: "Find the area of the sector given r = 3 m and &theta; = 150&deg;.", ans: 11.78, hint: "15*pi/4" },
-        { id: 16, level: "Medium (Conversions & Multi-Step)", text: "Find the area of the sector given r = 13 cm and &theta; = 150&deg;.", ans: 221.22, hint: "422.5*pi/6" },
-        { id: 17, level: "Medium (Conversions & Multi-Step)", text: "Find the total perimeter (arc + 2 radii) of a sector given r = 6 cm and &theta; = 120&deg;.", ans: 24.566, hint: "12 + 4*pi" },
-        { id: 18, level: "Medium (Conversions & Multi-Step)", text: "Find the area of a sector if its arc length is 15 cm and its radius is 10 cm.", ans: 75, hint: "75" },
-        { id: 19, level: "Medium (Conversions & Multi-Step)", text: "Find the area of a sector if its arc length is 4&pi; cm and its radius is 12 cm.", ans: 75.40, hint: "24*pi" },
-        { id: 20, level: "Medium (Conversions & Multi-Step)", text: "Find the radius of a sector given its area is 625 m&sup2; and its central angle is 2 radians.", ans: 25, hint: "25" },
+        // Section: Medium
+        { id: 11, level: "Medium (Conversions)", text: "Find the arc length given r = 11 ft and &theta; = 315&deg;.", ans: 60.476, hint: "77&pi;/4" },
+        { id: 12, level: "Medium (Conversions)", text: "Find the arc length given r = 13 ft and &theta; = 270&deg;.", ans: 61.26, hint: "39&pi;/2" },
+        { id: 13, level: "Medium (Conversions)", text: "Find the arc length given r = 18 cm and &theta; = 60&deg;.", ans: 18.85, hint: "6&pi;" },
+        { id: 14, level: "Medium (Conversions)", text: "Find the area of the sector given r = 10 in and &theta; = 60&deg;.", ans: 52.36, hint: "50&pi;/3" },
+        { id: 15, level: "Medium (Conversions)", text: "Find the area of the sector given r = 3 m and &theta; = 150&deg;.", ans: 11.78, hint: "15&pi;/4" },
+        { id: 16, level: "Medium (Conversions)", text: "Find the area of the sector given r = 13 cm and &theta; = 150&deg;.", ans: 221.22, hint: "422.5&pi;/6" },
+        { id: 17, level: "Medium (Conversions)", text: "Find the total perimeter (arc + 2 radii) of a sector given r = 6 cm and &theta; = 120&deg;.", ans: 24.566, hint: "12 + 4&pi;" },
+        { id: 18, level: "Medium (Conversions)", text: "Find the area of a sector if its arc length is 15 cm and its radius is 10 cm.", ans: 75, hint: "75" },
+        { id: 19, level: "Medium (Conversions)", text: "Find the area of a sector if its arc length is 4&pi; cm and its radius is 12 cm.", ans: 75.40, hint: "24&pi;" },
+        { id: 20, level: "Medium (Conversions)", text: "Find the radius of a sector given its area is 625 m&sup2; and its central angle is 2 radians.", ans: 25, hint: "25" },
 
-        // HARD
-        { id: 21, level: "Hard (Word Problems)", text: "A pendulum of length 15 cm swings through an angle of 0.8 radians. Find the distance traveled by the tip of the pendulum (in cm).", ans: 12, hint: "12" },
-        { id: 22, level: "Hard (Word Problems)", text: "A windshield wiper is 18 inches long. The rubber blade is 14 inches long (the inner 4 inches is bare arm). It sweeps through an angle of 2&pi;/3 radians. Find the area of the glass cleaned (in sq inches).", ans: 322.536, hint: "308*pi/3" },
-        { id: 23, level: "Hard (Word Problems)", text: "A circular pizza with a 14-inch diameter is cut into 8 equal slices. Find the area of one slice (in sq inches).", ans: 19.24, hint: "49*pi/8" },
-        { id: 24, level: "Hard (Word Problems)", text: "A sprinkler has a reach of 25 feet and rotates through an angle of 140&deg;. Find the area of the lawn watered (in sq ft).", ans: 763.58, hint: "4375*pi/18" },
-        { id: 25, level: "Hard (Word Problems)", text: "A satellite is in a circular orbit 400 km above the Earth's surface (Earth's radius &approx; 6400 km). If it travels through an angle of &pi;/4 radians, what distance has it traveled (in km)?", ans: 5340.707, hint: "1700*pi" },
-        { id: 26, level: "Hard (Word Problems)", text: "The minute hand of a clock is 8 cm long. How far does the tip of the minute hand travel between 1:00 PM and 1:20 PM (in cm)?", ans: 16.755, hint: "16*pi/3" },
-        { id: 27, level: "Hard (Word Problems)", text: "A rotating beacon can be seen for 3 miles. It sweeps back and forth through an angle of 75&deg;. What is the area of the region illuminated (in sq miles)?", ans: 5.89, hint: "15*pi/8" },
-        { id: 28, level: "Hard (Word Problems)", text: "The cross-section of a tunnel is a major segment of a circle with a radius of 5 m. The angle subtended by the major arc at the center is 4.5 radians. Find the arc length of the tunnel's roof (in m).", ans: 22.5, hint: "22.5" },
-        { id: 29, level: "Hard (Word Problems)", text: "A goat is tethered to a post at the outer corner of a square building with a 10 m rope, allowing it to graze in a 270&deg; region. What is the area of grass the goat can graze (in sq m)?", ans: 235.619, hint: "75*pi" },
-        { id: 30, level: "Hard (Word Problems)", text: "Two identical cogs are connected by a chain. One cog turns 3.5 radians. If the radius of the cog is 4 cm, how far did the chain move (in cm)?", ans: 14, hint: "14" }
+        // Section: Hard
+        { id: 21, level: "Hard (Word Problems)", text: "A pendulum of length 15 cm swings through an angle of 0.8 radians. Find the distance traveled by the tip (in cm).", ans: 12, hint: "12" },
+        { id: 22, level: "Hard (Word Problems)", text: "A windshield wiper is 18 in long. The rubber blade is 14 in long (inner 4 in is bare). It sweeps 2&pi;/3 radians. Find the cleaned area (in sq inches).", ans: 322.536, hint: "308&pi;/3" },
+        { id: 23, level: "Hard (Word Problems)", text: "A 14-inch diameter pizza is cut into 8 equal slices. Find the area of one slice (in sq inches).", ans: 19.24, hint: "49&pi;/8" },
+        { id: 24, level: "Hard (Word Problems)", text: "A sprinkler has a reach of 25 ft and rotates through 140&deg;. Find the area of the lawn watered (in sq ft).", ans: 763.58, hint: "4375&pi;/18" },
+        { id: 25, level: "Hard (Word Problems)", text: "A satellite orbits 400 km above Earth (R &approx; 6400 km). If it travels &pi;/4 radians, what distance has it traveled (in km)?", ans: 5340.707, hint: "1700&pi;" },
+        { id: 26, level: "Hard (Word Problems)", text: "A clock's minute hand is 8 cm long. How far does the tip travel between 1:00 PM and 1:20 PM (in cm)?", ans: 16.755, hint: "16&pi;/3" },
+        { id: 27, level: "Hard (Word Problems)", text: "A beacon seen for 3 miles sweeps through 75&deg;. What is the area of the region illuminated (in sq miles)?", ans: 5.89, hint: "15&pi;/8" },
+        { id: 28, level: "Hard (Word Problems)", text: "A tunnel roof is a major arc with r = 5 m. The arc subtends 4.5 radians. Find the arc length (in m).", ans: 22.5, hint: "22.5" },
+        { id: 29, level: "Hard (Word Problems)", text: "A goat tethered to a corner of a square building with a 10m rope can graze in a 270&deg; region. Find the grazed area (in sq m).", ans: 235.619, hint: "75&pi;" },
+        { id: 30, level: "Hard (Word Problems)", text: "A chain moves as a cog with r = 4 cm turns 3.5 radians. How far did the chain move (in cm)?", ans: 14, hint: "14" }
     ];
 
-    let currentScore = 0;
+    let state = {};
+    let totalSolved = 0;
 
     function renderQuiz() {
         const container = document.getElementById('quiz-container');
         let currentLevel = "";
         
-        questions.forEach((q, index) => {
+        questions.forEach((q) => {
+            state[q.id] = { tries: 0, solved: false };
+
             if (q.level !== currentLevel) {
                 currentLevel = q.level;
                 const levelHeader = document.createElement('h2');
@@ -272,86 +273,78 @@
             const card = document.createElement('div');
             card.className = 'question-card';
             card.id = `card-${q.id}`;
-            
             card.innerHTML = `
                 <div class="q-header">
                     <div class="q-text"><span class="q-number">Q${q.id}.</span> ${q.text}</div>
                 </div>
-                <div class="input-group">
-                    <input type="text" id="input-${q.id}" placeholder="Your answer..." onchange="gradeSingleQuestion(${q.id}, ${q.ans})">
-                    <span class="feedback" id="feedback-${q.id}"></span>
+                <div class="input-area">
+                    <input type="text" id="input-${q.id}" placeholder="Value..." onkeydown="if(event.key==='Enter') checkAnswer(${q.id}, ${q.ans})">
+                    <button class="check-btn" id="btn-${q.id}" onclick="checkAnswer(${q.id}, ${q.ans})">Check</button>
+                    <span class="try-counter" id="tries-${q.id}">Attempts: 0/3</span>
+                    <span class="feedback-msg" id="feedback-${q.id}"></span>
                 </div>
-                <div class="correct-ans-reveal" id="reveal-${q.id}">Correct answer: approx <strong>${q.ans}</strong> (or equivalent expression like ${q.hint})</div>
+                <div class="reveal-box" id="reveal-${q.id}">
+                    Correct Answer: <strong>${q.ans}</strong> (Equivalent to ${q.hint})
+                </div>
             `;
             container.appendChild(card);
         });
     }
 
-    // Advanced evaluating function to allow standard math syntax from students
-    function evaluateStudentInput(inputStr, correctVal) {
+    function evaluateInput(inputStr, correctVal) {
         let str = inputStr.trim().toLowerCase();
-        if (str === "") return null; // Return null if empty so we don't grade an empty box
+        if (str === "") return null;
         
-        // Handle common plain-text math notation safely
         str = str.replace(/pi/g, 'Math.PI');
-        str = str.replace(/(\d)(Math\.PI)/g, '$1*$2'); // e.g., '12Math.PI' -> '12*Math.PI'
+        str = str.replace(/(\d)(Math\.PI)/g, '$1*$2'); 
         
-        let studentNum = NaN;
-        try {
-            // Using Function for basic mathematical string parsing
-            studentNum = new Function('return ' + str)();
-        } catch (e) {
-            studentNum = parseFloat(str);
-        }
+        let val = NaN;
+        try { val = new Function('return ' + str)(); } 
+        catch (e) { val = parseFloat(str); }
 
-        if (isNaN(studentNum)) return false;
+        if (isNaN(val)) return false;
 
-        // Tolerance: Accept answer if absolute diff < 0.1 OR relative error < 1.5%
-        const diff = Math.abs(studentNum - correctVal);
-        if (diff <= 0.1 || (diff / correctVal) <= 0.015) {
-            return true;
-        }
-        return false;
+        const diff = Math.abs(val - correctVal);
+        return (diff <= 0.1 || (diff / correctVal) <= 0.015);
     }
 
-    function updateScoreDisplay() {
-        const scoreTracker = document.getElementById('scoreTracker');
-        scoreTracker.textContent = `Score: ${currentScore} / 30`;
-    }
+    function checkAnswer(id, correctVal) {
+        const qState = state[id];
+        if (qState.solved || qState.tries >= 3) return;
 
-    function gradeSingleQuestion(id, correctVal) {
         const inputEl = document.getElementById(`input-${id}`);
-        const cardEl = document.getElementById(`card-${id}`);
         const feedbackEl = document.getElementById(`feedback-${id}`);
-        
-        // Prevent re-grading if already correct
-        if (cardEl.classList.contains('is-correct')) return;
+        const cardEl = document.getElementById(`card-${id}`);
+        const triesEl = document.getElementById(`tries-${id}`);
+        const btnEl = document.getElementById(`btn-${id}`);
+        const revealEl = document.getElementById(`reveal-${id}`);
 
-        const isCorrect = evaluateStudentInput(inputEl.value, correctVal);
-        
-        if (isCorrect === null) {
-             // Do nothing if empty
-             return;
-        }
+        const isCorrect = evaluateInput(inputEl.value, correctVal);
+        if (isCorrect === null) return;
+
+        qState.tries++;
+        triesEl.textContent = `Attempts: ${qState.tries}/3`;
 
         if (isCorrect) {
-            cardEl.classList.remove('is-incorrect');
-            cardEl.classList.add('is-correct');
-            feedbackEl.textContent = '✓ Correct';
-            inputEl.disabled = true; // Lock the input once they get it right
-            currentScore++;
-            updateScoreDisplay();
+            qState.solved = true;
+            cardEl.className = 'question-card is-correct';
+            feedbackEl.textContent = 'Correct!';
+            btnEl.disabled = true;
+            totalSolved++;
+            document.getElementById('scoreTracker').textContent = `Score: ${totalSolved} / 30`;
         } else {
-            cardEl.classList.add('is-incorrect');
-            feedbackEl.textContent = '✗ Incorrect';
-            // We do not disable the input on incorrect, giving them a chance to try again.
-            // If you want to lock it after 1 attempt and show the answer, uncomment the lines below:
-            // inputEl.disabled = true;
-            // document.getElementById(`reveal-${id}`).style.display = 'block';
+            cardEl.className = 'question-card is-incorrect';
+            feedbackEl.textContent = 'Try again...';
+            
+            if (qState.tries >= 3) {
+                feedbackEl.textContent = 'Out of tries';
+                btnEl.disabled = true;
+                inputEl.disabled = true;
+                revealEl.style.display = 'block';
+            }
         }
     }
 
-    // Initialize page
     window.onload = renderQuiz;
 </script>
 
