@@ -3,346 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcs & Sectors Assessment</title>
+    <title>Trig Identities & Solving Equations Assessment</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            options: {
+                renderActions: {
+                    addMenu: []
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         :root {
-            --primary: #4F46E5;
-            --primary-hover: #4338CA;
-            --bg: #F3F4F6;
-            --surface: #FFFFFF;
-            --text: #1F2937;
-            --text-light: #6B7280;
-            --border: #E5E7EB;
-            --success: #10B981;
-            --success-bg: #D1FAE5;
-            --danger: #EF4444;
-            --danger-bg: #FEE2E2;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --primary-color: #2563eb;
+            --success-color: #22c55e;
+            --error-color: #ef4444;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
-            padding: 2rem 1rem;
+            margin: 0;
+            padding: 20px;
         }
 
         .container {
             max-width: 850px;
             margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
 
         header {
-            background: var(--surface);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
             text-align: center;
-            position: relative;
         }
 
-        h1 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 2rem;
-        }
+        h1 { margin: 0; color: var(--primary-color); }
+        p.subtitle { color: #64748b; margin-top: 5px; }
 
-        .score-tracker {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--primary);
-            background: var(--bg);
-            padding: 0.5rem 1rem;
+        .score-box {
+            position: sticky;
+            top: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
             border-radius: 8px;
-            border: 2px solid var(--border);
+            text-align: center;
+            font-weight: bold;
+            z-index: 100;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
-        .instructions {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            text-align: left;
-            margin-top: 1.5rem;
-            background: #F9FAFB;
-            padding: 1rem;
+        .question-block {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
             border-radius: 8px;
-            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
         }
 
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            margin-top: 2rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
-            color: var(--text);
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
         }
 
-        .question-card {
-            background: var(--surface);
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1.5rem;
+        .input-group {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-        }
-
-        .q-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .q-number {
-            font-weight: 600;
-            color: var(--primary);
-            margin-right: 0.5rem;
-        }
-
-        .q-text {
-            flex: 1;
-            font-size: 1.05rem;
-        }
-
-        .input-area {
-            display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 0.75rem;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         input[type="text"] {
-            padding: 0.6rem 1rem;
-            border: 2px solid var(--border);
+            padding: 10px;
+            border: 2px solid #cbd5e1;
             border-radius: 6px;
             font-size: 1rem;
-            width: 180px;
+            width: 250px;
             outline: none;
-            transition: all 0.2s;
+            transition: border-color 0.2s;
         }
 
-        .check-btn {
-            background: var(--primary);
+        input.correct { border-color: var(--success-color); background-color: #f0fdf4; }
+        input.incorrect { border-color: var(--error-color); background-color: #fef2f2; }
+
+        button.submit-btn {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 0.6rem 1.2rem;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            transition: background 0.2s;
         }
 
-        .check-btn:hover {
-            background: var(--primary-hover);
+        button.submit-btn:disabled { background-color: #cbd5e1; cursor: not-allowed; }
+
+        .attempts-info { font-size: 0.85rem; color: #64748b; margin-top: 5px; width: 100%; }
+        .correct-answer-reveal { color: var(--error-color); font-weight: bold; margin-top: 5px; display: none; }
+
+        .instructions {
+            background: #fffbeb;
+            padding: 15px;
+            border-left: 4px solid #f59e0b;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
         }
 
-        .check-btn:disabled {
-            background: var(--border);
-            cursor: not-allowed;
-            color: var(--text-light);
-        }
-
-        .try-counter {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            font-weight: 600;
-        }
-
-        .feedback-msg {
-            font-weight: 600;
-            margin-left: auto;
-        }
-
-        .reveal-box {
-            display: none;
-            margin-top: 0.5rem;
-            padding: 0.75rem;
-            background: #F3F4F6;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            border-left: 4px solid var(--text-light);
-        }
-
-        /* States */
-        .is-correct { border-color: var(--success); }
-        .is-correct input { border-color: var(--success); background-color: var(--success-bg); pointer-events: none; }
-        .is-correct .feedback-msg { color: var(--success); }
-
-        .is-incorrect { border-color: var(--danger); }
-        .is-incorrect input { border-color: var(--danger); background-color: var(--danger-bg); }
-        .is-incorrect .feedback-msg { color: var(--danger); }
-
-        @media (max-width: 600px) {
-            .score-tracker { position: static; display: inline-block; margin-top: 1rem; }
-            .input-area { flex-direction: column; align-items: flex-start; }
-            input[type="text"] { width: 100%; }
-            .check-btn { width: 100%; }
-        }
+        code { background: #f1f5f9; padding: 2px 4px; border-radius: 4px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <div class="score-tracker" id="scoreTracker">Score: 0 / 30</div>
-        <h1>Arcs & Sectors Assessment</h1>
-        <p>Topic: Radian Formulas ($s = r\theta$, $A = \frac{1}{2}r^2\theta$)</p>
-        <div class="instructions">
-            <strong>Interactive Mode:</strong>
-            <ul>
-                <li>Enter your answer and click <strong>Check</strong> for each question.</li>
-                <li>You have <strong>3 attempts</strong> per question before the answer is revealed.</li>
-                <li>Accepted formats: Decimals (e.g., <code>11.78</code>) or expressions (e.g., <code>15*pi/4</code>).</li>
-            </ul>
-        </div>
+        <h1>Trigonometry: Identities & Equations</h1>
+        <p class="subtitle">Solving Equations, Exact Values, and Rounding</p>
     </header>
+
+    <div class="score-box">
+        Current Score: <span id="score">0</span> / 30
+    </div>
+
+    <div class="instructions">
+        <strong>Formatting Rules:</strong><br>
+        1. <strong>Multiple Answers:</strong> Separate with a comma (e.g., <code>0.52,2.62</code> or <code>pi/6,5pi/6</code>).<br>
+        2. <strong>Exact Values:</strong> Use <code>pi</code> (e.g., <code>3pi/2</code>).<br>
+        3. <strong>Exponents:</strong> Use <code>^2</code> (e.g., <code>sin^2x</code>).<br>
+        4. <strong>Rounding:</strong> For decimal questions, round to exactly 2 decimal places.
+    </div>
 
     <div id="quiz-container"></div>
 </div>
 
 <script>
     const questions = [
-        // Section: Easy
-        { id: 1, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 13 in and &theta; = &pi;/6 rad.", ans: 6.807, hint: "13&pi;/6" },
-        { id: 2, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 16 ft and &theta; = 3&pi;/2 rad.", ans: 75.398, hint: "24&pi;" },
-        { id: 3, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 9 ft and &theta; = 7&pi;/4 rad.", ans: 49.48, hint: "63&pi;/4" },
-        { id: 4, level: "Easy (Direct Formulas)", text: "Find the arc length given r = 14 cm and &theta; = &pi;/2 rad.", ans: 21.99, hint: "7&pi;" },
-        { id: 5, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 4 cm and &theta; = 3&pi;/2 rad.", ans: 37.699, hint: "12&pi;" },
-        { id: 6, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 10 mi and &theta; = &pi;/2 rad.", ans: 78.54, hint: "25&pi;" },
-        { id: 7, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 12 yd and &theta; = 5&pi;/3 rad.", ans: 376.99, hint: "120&pi;" },
-        { id: 8, level: "Easy (Direct Formulas)", text: "Find the area of the sector given r = 14 yd and &theta; = 17&pi;/12 rad.", ans: 436.16, hint: "119&pi;/6" },
-        { id: 9, level: "Easy (Direct Formulas)", text: "Find the central angle &theta; (in radians) given arc length s = 15 cm and r = 10 cm.", ans: 1.5, hint: "1.5" },
-        { id: 10, level: "Easy (Direct Formulas)", text: "Find the central angle &theta; (in radians) given sector area A = 20 cm&sup2; and r = 8 cm.", ans: 0.625, hint: "0.625" },
+        // Exact Solving (from image 6) - 0 to 2pi
+        { q: "Solve for $x$: $(2 \\sin x - 1) \\cos x = 0$ in $[0, 2\\pi]$ (exact)", a: "pi/6,5pi/6,pi/2,3pi/2" },
+        { q: "Solve for $x$: $(\\sin x + 1)^2 = 0$ in $[0, 2\\pi]$ (exact)", a: "3pi/2" },
+        { q: "Solve for $x$: $(2 \\cos x + \\sqrt{3}) \\sin x = 0$ in $[0, 2\\pi]$ (exact)", a: "0,5pi/6,pi,7pi/6,2pi" },
+        { q: "Solve for $x$: $(2 \\cos x - 1)(2 \\sin x + \\sqrt{3}) = 0$ in $[0, 2\\pi]$ (exact)", a: "pi/3,4pi/3,5pi/3" },
+        { q: "Solve for $x$: $(\\sqrt{2} \\cos x - 1)(\\sqrt{2} \\cos x + 1) = 0$ in $[0, 2\\pi]$ (exact)", a: "pi/4,3pi/4,5pi/4,7pi/4" },
+        { q: "Solve for $x$: $(\\sin x + 1)(\\cos x - 1) = 0$ in $[0, 2\\pi]$ (exact)", a: "0,3pi/2,2pi" },
+        
+        // Decimal Solving (from image 7) - Round to hundredth
+        { q: "Solve for $\\theta$: $2 \\cos^2 \\theta + \\cos \\theta - 1 = 0$ (nearest hundredth, 0 to $2\\pi$)", a: "1.05,3.14,5.24" },
+        { q: "Solve for $\\theta$: $2 \\sin^2 \\theta = 1 - \\sin \\theta$ (nearest hundredth, 0 to $2\\pi$)", a: "0.52,2.62,4.71" },
+        { q: "Solve for $\\theta$: $\\cos^2 \\theta = 2 + \\cos \\theta$ (nearest hundredth, 0 to $2\\pi$)", a: "3.14" },
+        { q: "Solve for $\\theta$: $2 \\sin^2 \\theta + 5 \\sin \\theta - 3 = 0$ (nearest hundredth, 0 to $2\\pi$)", a: "0.52,2.62" },
+        { q: "Solve for $\\theta$: $3 \\tan^2 \\theta - 2 \\tan \\theta = 1$ (nearest hundredth, 0 to $2\\pi$)", a: "0.79,2.82,3.93,5.96" },
+        { q: "Solve for $\\theta$: $12 \\sin^2 \\theta + \\sin \\theta - 6 = 0$ (nearest hundredth, 0 to $2\\pi$)", a: "0.73,2.41,4.00,5.43" },
 
-        // Section: Medium
-        { id: 11, level: "Medium (Conversions)", text: "Find the arc length given r = 11 ft and &theta; = 315&deg;.", ans: 60.476, hint: "77&pi;/4" },
-        { id: 12, level: "Medium (Conversions)", text: "Find the arc length given r = 13 ft and &theta; = 270&deg;.", ans: 61.26, hint: "39&pi;/2" },
-        { id: 13, level: "Medium (Conversions)", text: "Find the arc length given r = 18 cm and &theta; = 60&deg;.", ans: 18.85, hint: "6&pi;" },
-        { id: 14, level: "Medium (Conversions)", text: "Find the area of the sector given r = 10 in and &theta; = 60&deg;.", ans: 52.36, hint: "50&pi;/3" },
-        { id: 15, level: "Medium (Conversions)", text: "Find the area of the sector given r = 3 m and &theta; = 150&deg;.", ans: 11.78, hint: "15&pi;/4" },
-        { id: 16, level: "Medium (Conversions)", text: "Find the area of the sector given r = 13 cm and &theta; = 150&deg;.", ans: 221.22, hint: "422.5&pi;/6" },
-        { id: 17, level: "Medium (Conversions)", text: "Find the total perimeter (arc + 2 radii) of a sector given r = 6 cm and &theta; = 120&deg;.", ans: 24.566, hint: "12 + 4&pi;" },
-        { id: 18, level: "Medium (Conversions)", text: "Find the area of a sector if its arc length is 15 cm and its radius is 10 cm.", ans: 75, hint: "75" },
-        { id: 19, level: "Medium (Conversions)", text: "Find the area of a sector if its arc length is 4&pi; cm and its radius is 12 cm.", ans: 75.40, hint: "24&pi;" },
-        { id: 20, level: "Medium (Conversions)", text: "Find the radius of a sector given its area is 625 m&sup2; and its central angle is 2 radians.", ans: 25, hint: "25" },
-
-        // Section: Hard
-        { id: 21, level: "Hard (Word Problems)", text: "A pendulum of length 15 cm swings through an angle of 0.8 radians. Find the distance traveled by the tip (in cm).", ans: 12, hint: "12" },
-        { id: 22, level: "Hard (Word Problems)", text: "A windshield wiper is 18 in long. The rubber blade is 14 in long (inner 4 in is bare). It sweeps 2&pi;/3 radians. Find the cleaned area (in sq inches).", ans: 322.536, hint: "308&pi;/3" },
-        { id: 23, level: "Hard (Word Problems)", text: "A 14-inch diameter pizza is cut into 8 equal slices. Find the area of one slice (in sq inches).", ans: 19.24, hint: "49&pi;/8" },
-        { id: 24, level: "Hard (Word Problems)", text: "A sprinkler has a reach of 25 ft and rotates through 140&deg;. Find the area of the lawn watered (in sq ft).", ans: 763.58, hint: "4375&pi;/18" },
-        { id: 25, level: "Hard (Word Problems)", text: "A satellite orbits 400 km above Earth (R &approx; 6400 km). If it travels &pi;/4 radians, what distance has it traveled (in km)?", ans: 5340.707, hint: "1700&pi;" },
-        { id: 26, level: "Hard (Word Problems)", text: "A clock's minute hand is 8 cm long. How far does the tip travel between 1:00 PM and 1:20 PM (in cm)?", ans: 16.755, hint: "16&pi;/3" },
-        { id: 27, level: "Hard (Word Problems)", text: "A beacon seen for 3 miles sweeps through 75&deg;. What is the area of the region illuminated (in sq miles)?", ans: 5.89, hint: "15&pi;/8" },
-        { id: 28, level: "Hard (Word Problems)", text: "A tunnel roof is a major arc with r = 5 m. The arc subtends 4.5 radians. Find the arc length (in m).", ans: 22.5, hint: "22.5" },
-        { id: 29, level: "Hard (Word Problems)", text: "A goat tethered to a corner of a square building with a 10m rope can graze in a 270&deg; region. Find the grazed area (in sq m).", ans: 235.619, hint: "75&pi;" },
-        { id: 30, level: "Hard (Word Problems)", text: "A chain moves as a cog with r = 4 cm turns 3.5 radians. How far did the chain move (in cm)?", ans: 14, hint: "14" }
+        // Identity Proofs/Simplification (Mix of previous set)
+        { q: "Simplify: $\\frac{\\sin x}{\\tan x}$", a: "cosx" },
+        { q: "Simplify: $\\frac{1}{\\cot \\theta}$", a: "tantheta" },
+        { q: "Simplify: $\\cos^2 \\theta - \\sin^2 \\theta$", a: "cos2theta" },
+        { q: "Factor completely: $\\sin^2 x + \\sin^2 x \\cos^2 x$", a: "sin^2x(1+cos^2x)" },
+        { q: "Simplify: $\\frac{1 + \\tan^2 x}{\\tan^2 x}$", a: "csc^2x" },
+        { q: "If $\\cos \\theta = 3/5$ and $0 \\le \\theta \\le \\pi/2$, find $\\sin 2\\theta$ (exact)", a: "24/25" },
+        { q: "Simplify: $\\sin^4 \\alpha - \\cos^4 \\alpha$", a: "sin^2alpha-cos^2alpha" },
+        { q: "If $p = \\sin 50^\\circ$, express $\\cos 50^\\circ$ in terms of $p$", a: "sqrt(1-p^2)" },
+        { q: "Simplify: $\\frac{\\sin 2\\theta}{2 \\sin \\theta}$", a: "costheta" },
+        { q: "Evaluate: $1 - 2 \\sin^2(\\pi/12)$ (exact)", a: "sqrt3/2" },
+        { q: "Simplify: $\\tan \\theta + \\cot \\theta$ (in terms of sin and cos)", a: "1/(sinthetacostheta)" },
+        { q: "Simplify: $(1 - \\sin x)(1 + \\sin x)$", a: "cos^2x" },
+        { q: "If $\\sin \\theta = 3/5$, find $\\cos 2\\theta$", a: "7/25" },
+        { q: "Simplify: $\\frac{\\cos 2x + 1}{\\sin 2x}$", a: "1/tanx" },
+        { q: "Express as single ratio: $4 \\sin \\theta \\cos \\theta$", a: "2sin2theta" },
+        { q: "Simplify: $\\sin x + \\cos x \\cot x$", a: "cscx" },
+        { q: "Simplify: $\\frac{\\csc^2 \\theta - 1}{\\cot^2 \\theta}$", a: "1" },
+        { q: "Solve: $2\\tan x - \\tan 2x + 2a = 1 - \\tan 2x \\tan^2 x$, find $a$", a: "1/2" }
     ];
 
-    let state = {};
-    let totalSolved = 0;
+    const quizContainer = document.getElementById('quiz-container');
+    const scoreDisplay = document.getElementById('score');
+    let totalScore = 0;
+    const userTries = Array(questions.length).fill(0);
+    const solved = Array(questions.length).fill(false);
 
     function renderQuiz() {
-        const container = document.getElementById('quiz-container');
-        let currentLevel = "";
-        
-        questions.forEach((q) => {
-            state[q.id] = { tries: 0, solved: false };
-
-            if (q.level !== currentLevel) {
-                currentLevel = q.level;
-                const levelHeader = document.createElement('h2');
-                levelHeader.className = 'section-title';
-                levelHeader.textContent = currentLevel;
-                container.appendChild(levelHeader);
-            }
-
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            card.id = `card-${q.id}`;
-            card.innerHTML = `
-                <div class="q-header">
-                    <div class="q-text"><span class="q-number">Q${q.id}.</span> ${q.text}</div>
-                </div>
-                <div class="input-area">
-                    <input type="text" id="input-${q.id}" placeholder="Value..." onkeydown="if(event.key==='Enter') checkAnswer(${q.id}, ${q.ans})">
-                    <button class="check-btn" id="btn-${q.id}" onclick="checkAnswer(${q.id}, ${q.ans})">Check</button>
-                    <span class="try-counter" id="tries-${q.id}">Attempts: 0/3</span>
-                    <span class="feedback-msg" id="feedback-${q.id}"></span>
-                </div>
-                <div class="reveal-box" id="reveal-${q.id}">
-                    Correct Answer: <strong>${q.ans}</strong> (Equivalent to ${q.hint})
+        questions.forEach((item, index) => {
+            const block = document.createElement('div');
+            block.className = 'question-block';
+            block.innerHTML = `
+                <div class="question-text"><strong>${index + 1}.</strong> ${item.q}</div>
+                <div class="input-group">
+                    <input type="text" id="q${index}" placeholder="Answer(s)..." autocomplete="off">
+                    <button class="submit-btn" id="btn${index}" onclick="checkAnswer(${index})">Submit</button>
+                    <span id="feedback${index}" class="feedback-icon"></span>
+                    <div class="attempts-info" id="tries${index}">Attempts: 0/3</div>
+                    <div class="correct-answer-reveal" id="reveal${index}">Correct answer: <code>${item.a}</code></div>
                 </div>
             `;
-            container.appendChild(card);
+            quizContainer.appendChild(block);
         });
+        if (window.MathJax && window.MathJax.typeset) window.MathJax.typeset();
     }
 
-    function evaluateInput(inputStr, correctVal) {
-        let str = inputStr.trim().toLowerCase();
-        if (str === "") return null;
-        
-        str = str.replace(/pi/g, 'Math.PI');
-        str = str.replace(/(\d)(Math\.PI)/g, '$1*$2'); 
-        
-        let val = NaN;
-        try { val = new Function('return ' + str)(); } 
-        catch (e) { val = parseFloat(str); }
+    function checkAnswer(index) {
+        if (solved[index]) return;
+        const input = document.getElementById(`q${index}`);
+        const feedback = document.getElementById(`feedback${index}`);
+        const triesDisplay = document.getElementById(`tries${index}`);
+        const revealDisplay = document.getElementById(`reveal${index}`);
+        const submitBtn = document.getElementById(`btn${index}`);
 
-        if (isNaN(val)) return false;
+        const userParts = input.value.toLowerCase().replace(/\s/g, '').split(',').sort().join(',');
+        const correctParts = questions[index].a.toLowerCase().replace(/\s/g, '').split(',').sort().join(',');
 
-        const diff = Math.abs(val - correctVal);
-        return (diff <= 0.1 || (diff / correctVal) <= 0.015);
-    }
-
-    function checkAnswer(id, correctVal) {
-        const qState = state[id];
-        if (qState.solved || qState.tries >= 3) return;
-
-        const inputEl = document.getElementById(`input-${id}`);
-        const feedbackEl = document.getElementById(`feedback-${id}`);
-        const cardEl = document.getElementById(`card-${id}`);
-        const triesEl = document.getElementById(`tries-${id}`);
-        const btnEl = document.getElementById(`btn-${id}`);
-        const revealEl = document.getElementById(`reveal-${id}`);
-
-        const isCorrect = evaluateInput(inputEl.value, correctVal);
-        if (isCorrect === null) return;
-
-        qState.tries++;
-        triesEl.textContent = `Attempts: ${qState.tries}/3`;
-
-        if (isCorrect) {
-            qState.solved = true;
-            cardEl.className = 'question-card is-correct';
-            feedbackEl.textContent = 'Correct!';
-            btnEl.disabled = true;
-            totalSolved++;
-            document.getElementById('scoreTracker').textContent = `Score: ${totalSolved} / 30`;
+        if (userParts === correctParts) {
+            solved[index] = true;
+            totalScore++;
+            updateScore();
+            input.className = 'correct';
+            input.disabled = true;
+            submitBtn.disabled = true;
+            feedback.innerHTML = ' ✅';
+            feedback.style.color = 'var(--success-color)';
+            triesDisplay.innerText = `Attempts: ${userTries[index] + 1}/3 (Correct!)`;
         } else {
-            cardEl.className = 'question-card is-incorrect';
-            feedbackEl.textContent = 'Try again...';
-            
-            if (qState.tries >= 3) {
-                feedbackEl.textContent = 'Out of tries';
-                btnEl.disabled = true;
-                inputEl.disabled = true;
-                revealEl.style.display = 'block';
+            userTries[index]++;
+            input.className = 'incorrect';
+            feedback.innerHTML = ' ❌';
+            feedback.style.color = 'var(--error-color)';
+            triesDisplay.innerText = `Attempts: ${userTries[index]}/3`;
+            if (userTries[index] >= 3) {
+                solved[index] = true;
+                input.disabled = true;
+                submitBtn.disabled = true;
+                revealDisplay.style.display = 'block';
             }
         }
+    }
+
+    function updateScore() {
+        scoreDisplay.innerText = totalScore;
     }
 
     window.onload = renderQuiz;
